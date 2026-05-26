@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Pago exitoso! — Panini Mundial 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', sans-serif; background: #f5f5f5; min-height: 100vh; display: flex; flex-direction: column; }
+  .navbar { background: #4a0a12; display: flex; align-items: center; justify-content: center; padding: 14px 28px; }
+  .navbar img { height: 44px; object-fit: contain; }
+
+  .success-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
+  .success-card {
+    background: #fff; border-radius: 20px; padding: 48px 40px;
+    max-width: 520px; width: 100%; text-align: center;
+    box-shadow: 0 8px 40px rgba(0,0,0,.1);
+  }
+  .check-circle {
+    width: 80px; height: 80px; background: #1a9e5c; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    animation: pop .4s cubic-bezier(.175,.885,.32,1.275);
+  }
+  @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .check-circle svg { width: 40px; height: 40px; color: #fff; }
+
+  .success-title { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: #0d1b2a; margin-bottom: 8px; }
+  .success-sub { font-size: 15px; color: #666; line-height: 1.6; margin-bottom: 28px; }
+
+  .order-details { background: #f9f9f9; border-radius: 12px; padding: 20px; margin-bottom: 28px; text-align: left; }
+  .order-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+  .order-row:last-child { border-bottom: none; }
+  .order-row .label { color: #888; font-weight: 500; }
+  .order-row .value { font-weight: 700; }
+  .order-row .value.verde { color: #1a9e5c; }
+
+  .info-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .info-box { background: #f5f5f5; border-radius: 10px; padding: 16px; text-align: center; }
+  .info-box .emoji { font-size: 24px; margin-bottom: 6px; }
+  .info-box .title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .info-box .desc { font-size: 11px; color: #888; }
+
+  .btn-volver {
+    display: inline-block; background: #4a0a12; color: #fff;
+    font-size: 14px; font-weight: 700; padding: 14px 36px;
+    border-radius: 10px; text-decoration: none;
+    transition: background .2s;
+  }
+  .btn-volver:hover { background: #6b0f1a; }
+
+  .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_1_logo-panini-oficial.png?v=1779814061" alt="Panini">
+</nav>
+
+<div class="success-wrap">
+  <div class="success-card">
+    <div class="check-circle">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+    </div>
+
+    <div class="success-title">¡Pago Exitoso!</div>
+    <p class="success-sub">Tu pedido está confirmado. Te enviamos un correo de confirmación con los detalles de tu envío.</p>
+
+    <div class="order-details">
+      <div class="order-row"><span class="label">Kit comprado</span><span class="value" id="kit-nombre">—</span></div>
+      <div class="order-row"><span class="label">Total pagado</span><span class="value verde" id="monto">—</span></div>
+      <div class="order-row"><span class="label">Confirmación enviada a</span><span class="value" id="email-val">—</span></div>
+      <div class="order-row"><span class="label">Envío</span><span class="value verde">GRATIS — Todo México</span></div>
+    </div>
+
+    <div class="info-boxes">
+      <div class="info-box"><div class="emoji">📧</div><div class="title">Revisa tu correo</div><div class="desc">Te enviamos los detalles de tu pedido</div></div>
+      <div class="info-box"><div class="emoji">🚚</div><div class="title">Envío en 2–4 días</div><div class="desc">Recibirás tu número de rastreo pronto</div></div>
+      <div class="info-box"><div class="emoji">📦</div><div class="title">100% sellado</div><div class="desc">Cajas originales Panini intactas</div></div>
+      <div class="info-box"><div class="emoji">🏆</div><div class="title">Oficial FIFA</div><div class="desc">Producto con licencia FIFA 2026</div></div>
+    </div>
+
+    <a href="index.html" class="btn-volver">← Volver a la tienda</a>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById('kit-nombre').textContent = params.get('kit') || 'Kit Panini';
+  document.getElementById('email-val').textContent = params.get('email') || '—';
+  const monto = params.get('monto');
+  document.getElementById('monto').textContent = monto ? `$${parseInt(monto).toLocaleString()} MXN` : '—';
+
+  // Confetti simple
+  const canvas = document.createElement('canvas');
+  canvas.className = 'confetti';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const pieces = Array.from({length: 80}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: Math.random() * 8 + 4,
+    d: Math.random() * 80 + 20,
+    color: ['#f5a623','#1a9e5c','#6b0f1a','#fff','#4a0a12'][Math.floor(Math.random()*5)],
+    tilt: Math.random() * 10 - 10,
+    tiltAngle: 0, tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+  }));
+  let frame = 0;
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.tiltAngle += p.tiltAngleIncremental;
+      p.y += (Math.cos(frame / 50 + p.d) + 1 + p.r / 2) / 2;
+      p.tilt = Math.sin(p.tiltAngle - frame / 3) * 15;
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.ellipse(p.x, p.y, p.r, p.r * 0.4, p.tilt, 0, Math.PI * 2);
+      ctx.fill();
+      if (p.y > canvas.height) { p.x = Math.random() * canvas.width; p.y = -10; }
+    });
+    frame++;
+    if (frame < 200) requestAnimationFrame(drawConfetti);
+    else { canvas.remove(); }
+  }
+  drawConfetti();
+</script>
+</body>
+</html>
