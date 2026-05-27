@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { priceId, nombre, email } = req.body;
+  const { priceId, nombre, email, telefono, calle, colonia, cp, ciudad, estado } = req.body;
   const kit = KITS[priceId];
 
   if (!kit) return res.status(400).json({ error: 'Kit no válido' });
@@ -31,6 +31,22 @@ module.exports = async (req, res) => {
         kit: kit.name,
         cliente: nombre,
         email: email,
+        telefono: telefono || '',
+        direccion: `${calle}, Col. ${colonia}, CP ${cp}`,
+        ciudad: ciudad || '',
+        estado: estado || '',
+      },
+      shipping: {
+        name: nombre,
+        phone: telefono || '',
+        address: {
+          line1: calle || '',
+          line2: `Col. ${colonia}`,
+          city: ciudad || '',
+          state: estado || '',
+          postal_code: cp || '',
+          country: 'MX',
+        },
       },
       description: `Panini Mundial 2026 — ${kit.name}`,
     });
