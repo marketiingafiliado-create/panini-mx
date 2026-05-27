@@ -127,6 +127,19 @@
   .back-link { display: inline-flex; align-items: center; gap: 6px; color: #888; font-size: 13px; font-weight: 600; text-decoration: none; margin-bottom: 20px; transition: color .2s; }
   .back-link:hover { color: var(--vino); }
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1727421338678576');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 
@@ -254,7 +267,7 @@
       <span class="payment-icon visa">VISA</span>
       <span class="payment-icon mc">MC</span>
       <span class="payment-icon amex">AMEX</span>
-      
+      <span class="payment-icon">OXXO</span>
       <span class="payment-icon">Google Pay</span>
     </div>
 
@@ -303,6 +316,17 @@
   document.getElementById('precio-total').textContent = `$${kit.precio.toLocaleString()} MXN`;
   document.getElementById('btn-texto').textContent = `Pagar — $${kit.precio.toLocaleString()} MXN →`;
 
+  // Meta Pixel - InitiateCheckout
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'InitiateCheckout', {
+      content_name: kit.nombre,
+      content_type: 'product',
+      currency: 'MXN',
+      value: kit.precio,
+      num_items: 1,
+    });
+  }
+
   // ── STRIPE ──
   // IMPORTANTE: Reemplaza con tu clave publicable
   const PUBLISHABLE_KEY = 'pk_live_TU_CLAVE_PUBLICA_AQUI';
@@ -336,6 +360,17 @@
   });
 
   // ── SUBMIT ──
+  // Meta Pixel - AddPaymentInfo when user starts filling card
+  cardNumber.on('change', (e) => {
+    if (e.complete && typeof fbq !== 'undefined') {
+      fbq('track', 'AddPaymentInfo', {
+        content_name: kit.nombre,
+        currency: 'MXN',
+        value: kit.precio,
+      });
+    }
+  });
+
   document.getElementById('btn-pagar').addEventListener('click', async () => {
     const nombre = document.getElementById('nombre').value.trim();
     const email  = document.getElementById('email').value.trim();
