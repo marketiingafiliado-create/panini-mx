@@ -179,18 +179,61 @@
 
   <!-- FORMULARIO DE PAGO -->
   <div class="form-card">
-    <div class="form-title">Información de pago</div>
+    <div class="form-title">Información de envío</div>
 
-    <div class="form-group">
-      <label class="form-label">Nombre completo</label>
-      <input type="text" id="nombre" class="form-input" placeholder="Como aparece en tu tarjeta">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nombre completo</label>
+        <input type="text" id="nombre" class="form-input" placeholder="Nombre y apellido">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Teléfono</label>
+        <input type="tel" id="telefono" class="form-input" placeholder="10 dígitos">
+      </div>
     </div>
     <div class="form-group">
       <label class="form-label">Correo electrónico</label>
       <input type="email" id="email" class="form-input" placeholder="Para enviarte tu confirmación">
     </div>
+    <div class="form-group">
+      <label class="form-label">Calle y número</label>
+      <input type="text" id="calle" class="form-input" placeholder="Ej. Av. Insurgentes 123, Int. 4B">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Colonia</label>
+        <input type="text" id="colonia" class="form-input" placeholder="Colonia">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Código postal</label>
+        <input type="text" id="cp" class="form-input" placeholder="00000" maxlength="5">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Ciudad</label>
+        <input type="text" id="ciudad" class="form-input" placeholder="Ciudad">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Estado</label>
+        <select id="estado" class="form-input">
+          <option value="">Selecciona...</option>
+          <option>Aguascalientes</option><option>Baja California</option><option>Baja California Sur</option>
+          <option>Campeche</option><option>Chiapas</option><option>Chihuahua</option>
+          <option>Ciudad de México</option><option>Coahuila</option><option>Colima</option>
+          <option>Durango</option><option>Estado de México</option><option>Guanajuato</option>
+          <option>Guerrero</option><option>Hidalgo</option><option>Jalisco</option>
+          <option>Michoacán</option><option>Morelos</option><option>Nayarit</option>
+          <option>Nuevo León</option><option>Oaxaca</option><option>Puebla</option>
+          <option>Querétaro</option><option>Quintana Roo</option><option>San Luis Potosí</option>
+          <option>Sinaloa</option><option>Sonora</option><option>Tabasco</option>
+          <option>Tamaulipas</option><option>Tlaxcala</option><option>Veracruz</option>
+          <option>Yucatán</option><option>Zacatecas</option>
+        </select>
+      </div>
+    </div>
 
-    <div class="divider"><span>Datos de tarjeta</span></div>
+    <div class="divider"><span>Datos de pago</span></div>
 
     <div class="form-group">
       <label class="form-label">Número de tarjeta</label>
@@ -262,7 +305,7 @@
 
   // ── STRIPE ──
   // IMPORTANTE: Reemplaza con tu clave publicable
-  const PUBLISHABLE_KEY = 'pk_live_51SjT2CRqTGFmxmfbrUGxqkznzJabQRJuyPIMJ9wSdCXWTw27jiXbe0XWXAUazmKG5G2JPkHY92dA3g2FNMQKDZOO00v17t2oQa';
+  const PUBLISHABLE_KEY = 'pk_live_TU_CLAVE_PUBLICA_AQUI';
   const stripe = Stripe(PUBLISHABLE_KEY);
   const elements = stripe.elements();
 
@@ -301,8 +344,21 @@
 
     errorEl.classList.remove('visible');
 
-    if (!nombre) return showError('Por favor ingresa tu nombre completo.');
+    const telefono = document.getElementById('telefono').value.trim();
+    const calle    = document.getElementById('calle').value.trim();
+    const colonia  = document.getElementById('colonia').value.trim();
+    const cp       = document.getElementById('cp').value.trim();
+    const ciudad   = document.getElementById('ciudad').value.trim();
+    const estado   = document.getElementById('estado').value.trim();
+
+    if (!nombre)   return showError('Por favor ingresa tu nombre completo.');
+    if (!telefono) return showError('Por favor ingresa tu teléfono.');
     if (!email || !email.includes('@')) return showError('Por favor ingresa un correo válido.');
+    if (!calle)    return showError('Por favor ingresa tu calle y número.');
+    if (!colonia)  return showError('Por favor ingresa tu colonia.');
+    if (!cp || cp.length < 5) return showError('Por favor ingresa tu código postal.');
+    if (!ciudad)   return showError('Por favor ingresa tu ciudad.');
+    if (!estado)   return showError('Por favor selecciona tu estado.');
 
     btn.classList.add('loading');
     btn.disabled = true;
@@ -312,7 +368,7 @@
       const res = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, nombre, email }),
+        body: JSON.stringify({ priceId, nombre, email, telefono, calle, colonia, cp, ciudad, estado }),
       });
       const data = await res.json();
       if (data.error) return showError(data.error);
