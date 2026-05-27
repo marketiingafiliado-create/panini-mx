@@ -51,6 +51,48 @@ module.exports = async (req, res) => {
       description: `Panini Mundial 2026 — ${kit.name}`,
     });
 
+    // Fire Meta Conversions API - Purchase event
+    try {
+      const pixelId = process.env.META_PIXEL_ID;
+      const accessToken = process.env.META_ACCESS_TOKEN;
+      if (pixelId && accessToken) {
+        const crypto = require('crypto');
+        const hashData = (val) => val ? crypto.createHash('sha256').update(val.toLowerCase().trim()).digest('hex') : null;
+        const metaPayload = {
+          data: [{
+            event_name: 'Purchase',
+            event_time: Math.floor(Date.now() / 1000),
+            action_source: 'website',
+            event_source_url: 'https://albumoficial.com/checkout',
+            user_data: {
+              em: email ? [hashData(email)] : [],
+              ph: telefono ? [hashData(telefono.replace(/\D/g,''))] : [],
+              fn: nombre ? [hashData(nombre.split(' ')[0])] : [],
+              ln: nombre && nombre.split(' ').length > 1 ? [hashData(nombre.split(' ').slice(1).join(' '))] : [],
+              ct: ciudad ? [hashData(ciudad)] : [],
+              st: estado ? [hashData(estado)] : [],
+              zp: cp ? [hashData(cp)] : [],
+              country: [hashData('mx')],
+            },
+            custom_data: {
+              currency: 'MXN',
+              value: kit.amount / 100,
+              content_name: kit.name,
+              content_type: 'product',
+              contents: [{ id: priceId, quantity: 1, item_price: kit.amount / 100 }],
+            },
+          }],
+        };
+        await fetch(`https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(metaPayload),
+        });
+      }
+    } catch (metaErr) {
+      console.error('Meta API error:', metaErr.message);
+    }
+
     res.json({ clientSecret: paymentIntent.client_secret, kit: kit.name });
   } catch (err) {
     console.error(err);
