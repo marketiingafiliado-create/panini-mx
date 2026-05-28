@@ -400,7 +400,7 @@ src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></
 
     try {
       // 1. Crear PaymentIntent en el servidor
-      const res = await fetch('https://panini-mx.vercel.app/api/create-payment-intent', {
+      const res = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ priceId, nombre, email, telefono, calle, colonia, cp, ciudad, estado }),
