@@ -103,7 +103,8 @@ src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></
   const params = new URLSearchParams(window.location.search);
   document.getElementById('kit-nombre').textContent = params.get('kit') || 'Kit Panini';
 
-  // Meta Pixel - Purchase (browser-side backup)
+  // Meta Pixel - Purchase (browser-side with deduplication)
+  const eventId = params.get('event_id') || `purchase_${Date.now()}`;
   if (typeof fbq !== 'undefined') {
     fbq('track', 'Purchase', {
       content_name: params.get('kit') || 'Kit Panini',
@@ -111,7 +112,7 @@ src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></
       currency: 'MXN',
       value: parseFloat(params.get('monto')) || 0,
       num_items: 1,
-    });
+    }, { eventID: eventId });
   }
   document.getElementById('email-val').textContent = params.get('email') || '—';
   const monto = params.get('monto');
