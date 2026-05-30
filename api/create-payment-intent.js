@@ -62,6 +62,7 @@ module.exports = async (req, res) => {
           data: [{
             event_name: 'Purchase',
             event_time: Math.floor(Date.now() / 1000),
+            event_id: eventId,
             action_source: 'website',
             event_source_url: 'https://albumoficial.com/checkout',
             user_data: {
@@ -93,7 +94,8 @@ module.exports = async (req, res) => {
       console.error('Meta API error:', metaErr.message);
     }
 
-    res.json({ clientSecret: paymentIntent.client_secret, kit: kit.name });
+    const eventId = `purchase_${paymentIntent.id}_${Date.now()}`;
+    res.json({ clientSecret: paymentIntent.client_secret, kit: kit.name, eventId });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
