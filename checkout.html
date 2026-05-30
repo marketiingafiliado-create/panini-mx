@@ -329,7 +329,7 @@ src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></
 
   // ── STRIPE ──
   // IMPORTANTE: Reemplaza con tu clave publicable
-  const PUBLISHABLE_KEY = 'pk_live_51SjT2CRqTGFmxmfbrUGxqkznzJabQRJuyPIMJ9wSdCXWTw27jiXbe0XWXAUazmKG5G2JPkHY92dA3g2FNMQKDZOO00v17t2oQa';
+  const PUBLISHABLE_KEY = 'pk_live_TU_CLAVE_PUBLICA_AQUI';
   const stripe = Stripe(PUBLISHABLE_KEY);
   const elements = stripe.elements();
 
@@ -419,7 +419,8 @@ src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></
       if (error) return showError(error.message);
 
       // 3. Éxito → redirigir
-      window.location.href = `/success.html?kit=${encodeURIComponent(kit.nombre)}&email=${encodeURIComponent(email)}&monto=${kit.precio}`;
+      const eventId = data.eventId || `purchase_${Date.now()}`;
+      window.location.href = `/success.html?kit=${encodeURIComponent(kit.nombre)}&email=${encodeURIComponent(email)}&monto=${kit.precio}&event_id=${eventId}`;
 
     } catch (err) {
       showError('Error de conexión. Intenta de nuevo.');
