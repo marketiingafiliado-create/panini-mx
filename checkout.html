@@ -15,7 +15,11 @@ fbq('init','1727421338678576');fbq('track','PageView');
 </script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--vino:#6b0f1a;--vino-dark:#4a0a12;--verde:#1a9e5c;--verde-dark:#157a47;--amarillo:#f5a623;--gris:#f5f5f5;--borde:#e0e0e0;--texto:#1a1a1a}
+:root{
+  --vino:#6b0f1a;--vino-dark:#4a0a12;--verde:#1a9e5c;--verde-dark:#157a47;
+  --gris:#f5f5f5;--borde:#e0e0e0;--texto:#1a1a1a;
+  --field-h:46px;
+}
 body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh}
 .navbar{background:var(--vino-dark);display:flex;align-items:center;justify-content:space-between;padding:12px 28px}
 .navbar img{height:44px;object-fit:contain}
@@ -44,34 +48,73 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
 .form-subtitle{font-size:12px;color:#888;margin-bottom:20px}
 .form-group{margin-bottom:14px}
 .form-label{font-size:11px;font-weight:700;color:#555;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px}
-.form-input{width:100%;padding:11px 13px;border:1.5px solid var(--borde);border-radius:8px;font-size:14px;font-family:'Montserrat',sans-serif;color:var(--texto);outline:none;transition:border-color .2s;background:#fff}
+.form-input{
+  width:100%;height:var(--field-h);padding:0 13px;
+  border:1.5px solid var(--borde);border-radius:8px;
+  font-size:14px;font-family:'Montserrat',sans-serif;
+  color:var(--texto);outline:none;transition:border-color .2s;background:#fff;
+  display:flex;align-items:center;
+}
 .form-input:focus{border-color:var(--vino)}
+select.form-input{padding:0 13px;cursor:pointer}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.divider{display:flex;align-items:center;gap:12px;margin:18px 0}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0 16px}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--borde)}
-.divider span{font-size:11px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.payment-icons{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.payment-icon{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:4px;padding:4px 8px;font-size:11px;font-weight:700;color:#333}
-.payment-icon.visa{background:#1a1f71;color:#fff}
-.payment-icon.mc{background:#eb001b;color:#fff}
-.payment-icon.amex{background:#007bc1;color:#fff}
-.btn-pagar{width:100%;padding:16px;background:var(--verde);color:#fff;font-size:16px;font-weight:800;border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s;text-transform:uppercase;letter-spacing:1px;margin-top:16px}
-.btn-pagar:hover:not(:disabled){background:var(--verde-dark)}
+.divider span{font-size:11px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+
+/* ── Sección de pago con tarjeta ── */
+.card-section{background:#fafafa;border:1.5px solid var(--borde);border-radius:12px;padding:18px;margin-bottom:14px}
+.card-logos{display:flex;gap:6px;margin-bottom:16px;align-items:center}
+.card-logo{height:24px;background:#fff;border:1px solid #e0e0e0;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;min-width:42px}
+.card-logo.visa{background:#1a1f71;color:#fff;border-color:#1a1f71}
+.card-logo.mc{background:#eb001b;color:#fff;border-color:#eb001b}
+.card-logo.amex{background:#007bc1;color:#fff;border-color:#007bc1}
+.card-logo.oxxo{background:#f5f5f5;color:#555;border-color:#ddd}
+
+/* Contenedor de iframe MP — altura fija */
+.mp-field{
+  width:100%;height:var(--field-h);
+  border:1.5px solid var(--borde);border-radius:8px;
+  background:#fff;overflow:hidden;
+  transition:border-color .2s, box-shadow .2s;
+  position:relative;
+}
+.mp-field iframe{
+  position:absolute;top:0;left:0;
+  width:100% !important;height:100% !important;
+  border:none !important;
+  background:transparent;
+}
+.mp-field:focus-within{
+  border-color:var(--vino);
+  box-shadow:0 0 0 3px rgba(107,15,26,.08);
+}
+
+.btn-pagar{
+  width:100%;height:52px;
+  background:var(--verde);color:#fff;
+  font-size:15px;font-weight:800;
+  border:none;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:background .2s, transform .1s;
+  text-transform:uppercase;letter-spacing:1px;
+  margin-top:16px;
+}
+.btn-pagar:hover:not(:disabled){background:var(--verde-dark);transform:translateY(-1px)}
+.btn-pagar:active:not(:disabled){transform:translateY(0)}
 .btn-pagar:disabled{opacity:.6;cursor:not-allowed}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
 .btn-pagar.loading .spinner{display:block}
 .btn-pagar.loading .btn-text{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-.secure-note{text-align:center;font-size:11px;color:#aaa;margin-top:10px}
+.secure-note{text-align:center;font-size:11px;color:#aaa;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:4px}
 .error-msg{background:#fff0f0;border:1px solid #ffcccc;color:#c0392b;padding:12px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-top:12px;display:none}
 .error-msg.visible{display:block}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:#888;font-size:13px;font-weight:600;text-decoration:none;margin-bottom:20px}
 .back-link:hover{color:var(--vino)}
-.card-field-wrap{border:1.5px solid var(--borde);border-radius:8px;background:#fff;transition:border-color .2s;overflow:hidden;min-height:46px;display:flex;align-items:center}
-.card-field-wrap:focus-within{border-color:var(--vino);box-shadow:0 0 0 3px rgba(107,15,26,.1)}
 #mp-hidden{display:none !important;position:absolute;left:-9999px}
-.loading-overlay{display:none;text-align:center;padding:20px;color:#888;font-size:13px}
-.loading-overlay.visible{display:block}
+.mp-loading{text-align:center;padding:12px;color:#888;font-size:12px;display:none}
+.mp-loading.visible{display:block}
 </style>
 </head>
 <body>
@@ -79,7 +122,9 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
   <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_1_logo-panini-oficial.png?v=1779814061" alt="Panini">
   <div class="navbar-secure">🔒 Compra 100% segura</div>
 </nav>
+
 <div class="checkout-wrap">
+  <!-- Columna izquierda: resumen -->
   <div>
     <a href="index.html" class="back-link">← Regresar</a>
     <div class="summary-card">
@@ -97,14 +142,15 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
       <div class="price-row"><span class="label">Envío</span><span class="amount verde">GRATIS</span></div>
       <div class="price-row total"><span class="label">Total</span><span class="amount" id="precio-total">—</span></div>
       <div class="trust-mini">
-        <div class="trust-mini-item"><span>🚚</span> Envío gratis a todo México (2–4 días)</div>
-        <div class="trust-mini-item"><span>📦</span> Cajas 100% selladas, nunca abiertas</div>
-        <div class="trust-mini-item"><span>↩️</span> Garantía de 7 días</div>
-        <div class="trust-mini-item"><span>🏆</span> Licencia oficial FIFA</div>
+        <div class="trust-mini-item">🚚 Envío gratis a todo México (2–4 días)</div>
+        <div class="trust-mini-item">📦 Cajas 100% selladas, nunca abiertas</div>
+        <div class="trust-mini-item">↩️ Garantía de 7 días</div>
+        <div class="trust-mini-item">🏆 Licencia oficial FIFA</div>
       </div>
     </div>
   </div>
 
+  <!-- Columna derecha: formulario -->
   <div class="form-card">
     <div class="form-title">Información de envío</div>
     <div class="form-subtitle">Completa tus datos para recibir tu pedido</div>
@@ -161,50 +207,55 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
       </div>
     </div>
 
-    <div class="divider"><span>Datos de pago</span></div>
-    <div class="payment-icons">
-      <span class="payment-icon visa">VISA</span>
-      <span class="payment-icon mc">MC</span>
-      <span class="payment-icon amex">AMEX</span>
-      <span class="payment-icon">OXXO</span>
+    <div class="divider"><span>Pago seguro</span></div>
+
+    <!-- Sección tarjeta con fondo diferenciado -->
+    <div class="card-section">
+      <div class="card-logos">
+        <span class="card-logo visa">VISA</span>
+        <span class="card-logo mc">MC</span>
+        <span class="card-logo amex">AMEX</span>
+        <span class="card-logo oxxo">OXXO</span>
+      </div>
+
+      <div class="mp-loading" id="mp-loading">Cargando formulario seguro...</div>
+
+      <form id="mp-form">
+        <div class="form-group">
+          <label class="form-label">Número de tarjeta</label>
+          <div class="mp-field" id="cardNumber"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Vencimiento</label>
+            <div class="mp-field" id="expirationDate"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">CVC</label>
+            <div class="mp-field" id="securityCode"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre en la tarjeta</label>
+          <input type="text" id="cardholderName" class="form-input" placeholder="Como aparece en tu tarjeta" autocomplete="cc-name">
+        </div>
+        <div id="mp-hidden">
+          <select id="issuer"></select>
+          <select id="installments"></select>
+          <select id="docType"></select>
+          <input type="text" id="docNumber">
+          <input type="email" id="cardholderEmail">
+        </div>
+      </form>
     </div>
 
-    <div class="loading-overlay" id="mp-loading">⏳ Cargando formulario de pago...</div>
-
-    <form id="mp-form">
-      <div class="form-group">
-        <label class="form-label">Número de tarjeta</label>
-        <div class="card-field-wrap" id="cardNumber"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Vencimiento</label>
-          <div class="card-field-wrap" id="expirationDate"></div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">CVC</label>
-          <div class="card-field-wrap" id="securityCode"></div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Nombre en la tarjeta</label>
-        <input type="text" id="cardholderName" class="form-input" placeholder="Como aparece en tu tarjeta" autocomplete="cc-name">
-      </div>
-      <div id="mp-hidden">
-        <select id="issuer"></select>
-        <select id="installments"></select>
-        <select id="docType"></select>
-        <input type="text" id="docNumber">
-        <input type="email" id="cardholderEmail">
-      </div>
-    </form>
-
     <div class="error-msg" id="error-msg"></div>
+
     <button type="button" class="btn-pagar" id="btn-pagar" disabled>
       <div class="spinner"></div>
       <span class="btn-text" id="btn-texto">Cargando...</span>
     </button>
-    <div class="secure-note">🔒 Pago cifrado SSL · Powered by Mercado Pago</div>
+    <div class="secure-note">🔒 Cifrado SSL · <img src="https://www.mercadopago.com.mx/static/img/ml-logo.png" height="14" style="opacity:.5;vertical-align:middle"> Mercado Pago</div>
   </div>
 </div>
 
@@ -218,10 +269,10 @@ const KITS = {
   'golden-edition':    {nombre:'Golden Edition',    desc:'1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)',precio:4199, original:4999, img:'imgi_7_kit-capa-dourada.png?v=1779814074'},
   'kit-estadio':       {nombre:'Kit Estadio',       desc:'1 Álbum Edición Especial + 250 sobres',         precio:5699, original:6999, img:'imgi_8_kit-estadio.png?v=1779814078'},
 };
-const CDN    = 'https://cdn.shopify.com/s/files/1/0713/5654/7132/files/';
-const params = new URLSearchParams(window.location.search);
-const kitId  = params.get('kit') || 'kit-campeon';
-const kit    = KITS[kitId] || KITS['kit-campeon'];
+const CDN   = 'https://cdn.shopify.com/s/files/1/0713/5654/7132/files/';
+const params= new URLSearchParams(window.location.search);
+const kitId = params.get('kit') || 'kit-campeon';
+const kit   = KITS[kitId] || KITS['kit-campeon'];
 
 document.getElementById('kit-img').src              = CDN + kit.img;
 document.getElementById('kit-nombre').textContent   = kit.nombre;
@@ -232,9 +283,8 @@ document.getElementById('precio-total').textContent = `$${kit.precio.toLocaleStr
 
 if (typeof fbq !== 'undefined') fbq('track','InitiateCheckout',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
 
-// ── Cargar Public Key desde el backend y luego inicializar MP ─────────────
+// Cargar Public Key desde backend
 document.getElementById('mp-loading').classList.add('visible');
-
 fetch('/api/mp-config')
   .then(r => r.json())
   .then(cfg => {
@@ -242,11 +292,11 @@ fetch('/api/mp-config')
     initMP(cfg.publicKey);
   })
   .catch(() => {
-    document.getElementById('mp-loading').textContent = '❌ Error cargando formulario. Recarga la página.';
+    document.getElementById('mp-loading').textContent = '❌ Error al cargar. Recarga la página.';
   });
 
 function initMP(publicKey) {
-  const mp = new MercadoPago(publicKey, {locale: 'es-MX'});
+  const mp = new MercadoPago(publicKey, {locale:'es-MX'});
 
   const cardForm = mp.cardForm({
     amount: String(kit.precio),
@@ -265,69 +315,49 @@ function initMP(publicKey) {
     },
     callbacks: {
       onFormMounted: err => {
-        if (err) { console.warn('Mount error:', err); return; }
+        if (err) { console.warn('Mount:', err); return; }
         const btn = document.getElementById('btn-pagar');
         btn.disabled = false;
         document.getElementById('btn-texto').textContent = `Pagar — $${kit.precio.toLocaleString()} MXN →`;
       },
       onSubmit: async event => {
         event.preventDefault();
-        const { token, paymentMethodId, issuerId, installments } = cardForm.getCardFormData();
+        const {token, paymentMethodId, issuerId, installments} = cardForm.getCardFormData();
         if (!token) { showError('No se pudo tokenizar la tarjeta. Verifica los datos.'); return; }
         await procesarPago(token, paymentMethodId, issuerId, installments);
       },
-      onFetching: () => {
-        setBtnLoading(true);
-        return () => setBtnLoading(false);
-      },
+      onFetching: () => { setBtnLoading(true); return () => setBtnLoading(false); },
       onError: errs => {
-        console.error('MP errors:', errs);
         if (errs && errs.length) showError(errs[0].message || 'Error en los datos de la tarjeta.');
       },
     },
   });
 
   document.getElementById('btn-pagar').addEventListener('click', () => {
-    const nombre   = v('nombre');
-    const telefono = v('telefono');
-    const email    = v('email');
-    const calle    = v('calle');
-    const colonia  = v('colonia');
-    const cp       = v('cp');
-    const ciudad   = v('ciudad');
-    const estado   = v('estado');
-
     hideError();
-    if (!nombre)               return showError('Por favor ingresa tu nombre completo.');
-    if (!telefono)             return showError('Por favor ingresa tu teléfono.');
-    if (!email||!email.includes('@')) return showError('Por favor ingresa un correo válido.');
-    if (!calle)                return showError('Por favor ingresa tu calle y número.');
-    if (!colonia)              return showError('Por favor ingresa tu colonia.');
-    if (!cp||cp.length<5)      return showError('Por favor ingresa tu código postal.');
-    if (!ciudad)               return showError('Por favor ingresa tu ciudad.');
-    if (!estado)               return showError('Por favor selecciona tu estado.');
-
-    document.getElementById('cardholderEmail').value = email;
+    if (!v('nombre'))                      return showError('Por favor ingresa tu nombre completo.');
+    if (!v('telefono'))                    return showError('Por favor ingresa tu teléfono.');
+    if (!v('email')||!v('email').includes('@')) return showError('Por favor ingresa un correo válido.');
+    if (!v('calle'))                       return showError('Por favor ingresa tu calle y número.');
+    if (!v('colonia'))                     return showError('Por favor ingresa tu colonia.');
+    if (!v('cp')||v('cp').length<5)        return showError('Por favor ingresa tu código postal.');
+    if (!v('ciudad'))                      return showError('Por favor ingresa tu ciudad.');
+    if (!v('estado'))                      return showError('Por favor selecciona tu estado.');
+    document.getElementById('cardholderEmail').value = v('email');
     cardForm.submit();
   });
 
   async function procesarPago(token, payment_method_id, issuer_id, installments) {
     setBtnLoading(true);
     try {
-      const res = await fetch('/api/mp-payment', {
+      const res  = await fetch('/api/mp-payment', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
-          kitId,
-          nombre:   v('nombre'),
-          email:    v('email'),
-          telefono: v('telefono'),
-          calle:    v('calle'),
-          colonia:  v('colonia'),
-          cp:       v('cp'),
-          ciudad:   v('ciudad'),
-          estado:   v('estado'),
-          token, installments, issuer_id, payment_method_id,
+          kitId, token, installments, issuer_id, payment_method_id,
+          nombre:v('nombre'), email:v('email'), telefono:v('telefono'),
+          calle:v('calle'), colonia:v('colonia'), cp:v('cp'),
+          ciudad:v('ciudad'), estado:v('estado'),
         }),
       });
       const data = await res.json();
@@ -337,28 +367,23 @@ function initMP(publicKey) {
       } else {
         showError(data.error || 'Pago rechazado. Verifica tus datos e intenta de nuevo.');
       }
-    } catch(err) {
-      showError('Error de conexión. Intenta de nuevo.');
-    } finally {
-      setBtnLoading(false);
-    }
+    } catch { showError('Error de conexión. Intenta de nuevo.'); }
+    finally  { setBtnLoading(false); }
   }
 }
 
-function v(id)         { return document.getElementById(id).value.trim(); }
+function v(id)  { return document.getElementById(id).value.trim(); }
 function setBtnLoading(on) {
-  const btn = document.getElementById('btn-pagar');
-  btn.classList.toggle('loading', on);
-  btn.disabled = on;
+  const b = document.getElementById('btn-pagar');
+  b.classList.toggle('loading', on); b.disabled = on;
 }
 function showError(msg) {
   const el = document.getElementById('error-msg');
-  el.textContent = msg;
-  el.classList.add('visible');
+  el.textContent = msg; el.classList.add('visible');
   el.scrollIntoView({behavior:'smooth',block:'nearest'});
   setBtnLoading(false);
 }
-function hideError() { document.getElementById('error-msg').classList.remove('visible'); }
+function hideError(){ document.getElementById('error-msg').classList.remove('visible'); }
 </script>
 </body>
 </html>
