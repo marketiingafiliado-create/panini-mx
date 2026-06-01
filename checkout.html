@@ -5,85 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout — Panini Mundial 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1727421338678576');
-fbq('track', 'PageView');
+fbq('init','1727421338678576');fbq('track','PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1727421338678576&ev=PageView&noscript=1"/></noscript>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --vino: #6b0f1a; --vino-dark: #4a0a12; --verde: #1a9e5c;
-    --verde-dark: #157a47; --amarillo: #f5a623; --gris: #f5f5f5;
-    --borde: #e0e0e0; --texto: #1a1a1a;
-  }
-  body { font-family: 'Montserrat', sans-serif; background: var(--gris); color: var(--texto); min-height: 100vh; }
-  .navbar { background: var(--vino-dark); display: flex; align-items: center; justify-content: space-between; padding: 12px 28px; }
-  .navbar img { height: 44px; object-fit: contain; }
-  .navbar-secure { color: rgba(255,255,255,.8); font-size: 12px; font-weight: 600; }
-  .checkout-wrap { max-width: 860px; margin: 32px auto; padding: 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 640px) { .checkout-wrap { grid-template-columns: 1fr; } }
-
-  /* RESUMEN */
-  .summary-card { background: #fff; border-radius: 16px; padding: 28px; border: 1px solid var(--borde); height: fit-content; }
-  .summary-title { font-size: 13px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-  .kit-preview { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-  .kit-preview img { width: 80px; height: 80px; object-fit: contain; }
-  .kit-name { font-size: 18px; font-weight: 800; }
-  .kit-desc-text { font-size: 12px; color: #888; margin-top: 4px; }
-  .kit-badge-green { display: inline-block; background: var(--verde); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-top: 6px; }
-  .price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px solid var(--borde); }
-  .price-row.total { border-top: 2px solid var(--texto); }
-  .price-row.total .label { font-weight: 800; font-size: 16px; }
-  .price-row.total .amount { font-weight: 900; font-size: 22px; }
-  .price-row .label { font-size: 13px; color: #666; }
-  .price-row .amount { font-size: 14px; font-weight: 700; }
-  .price-row .tachado { text-decoration: line-through; color: #aaa; font-weight: 500; }
-  .price-row .verde { color: var(--verde); }
-  .trust-mini { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--borde); }
-  .trust-mini-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666; margin-bottom: 8px; }
-
-  /* FORM */
-  .form-card { background: #fff; border-radius: 16px; padding: 28px; border: 1px solid var(--borde); }
-  .form-title { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
-  .form-subtitle { font-size: 12px; color: #888; margin-bottom: 20px; }
-  .form-group { margin-bottom: 14px; }
-  .form-label { font-size: 11px; font-weight: 700; color: #555; margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: .5px; }
-  .form-input { width: 100%; padding: 11px 13px; border: 1.5px solid var(--borde); border-radius: 8px; font-size: 14px; font-family: 'Montserrat', sans-serif; color: var(--texto); outline: none; transition: border-color .2s; }
-  .form-input:focus { border-color: var(--vino); }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; }
-  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--borde); }
-  .divider span { font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-
-  /* MP Brick container */
-  #mp-card-form { margin-bottom: 16px; }
-
-  .btn-pagar { width: 100%; padding: 16px; background: var(--verde); color: #fff; font-size: 16px; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background .2s; text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; }
-  .btn-pagar:hover:not(:disabled) { background: var(--verde-dark); }
-  .btn-pagar:disabled { opacity: .6; cursor: not-allowed; }
-  .btn-pagar .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
-  .btn-pagar.loading .spinner { display: block; }
-  .btn-pagar.loading .btn-text { display: none; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .secure-note { text-align: center; font-size: 11px; color: #aaa; margin-top: 10px; }
-  .error-msg { background: #fff0f0; border: 1px solid #ffcccc; color: #c0392b; padding: 12px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 12px; display: none; }
-  .error-msg.visible { display: block; }
-  .back-link { display: inline-flex; align-items: center; gap: 6px; color: #888; font-size: 13px; font-weight: 600; text-decoration: none; margin-bottom: 20px; }
-  .back-link:hover { color: var(--vino); }
-
-  .payment-icons { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-  .payment-icon { background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 4px; padding: 4px 8px; font-size: 11px; font-weight: 700; color: #333; }
-  .payment-icon.visa { background: #1a1f71; color: #fff; }
-  .payment-icon.mc { background: #eb001b; color: #fff; }
-  .payment-icon.amex { background: #007bc1; color: #fff; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--vino:#6b0f1a;--vino-dark:#4a0a12;--verde:#1a9e5c;--verde-dark:#157a47;--amarillo:#f5a623;--gris:#f5f5f5;--borde:#e0e0e0;--texto:#1a1a1a}
+body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh}
+.navbar{background:var(--vino-dark);display:flex;align-items:center;justify-content:space-between;padding:12px 28px}
+.navbar img{height:44px;object-fit:contain}
+.navbar-secure{color:rgba(255,255,255,.8);font-size:12px;font-weight:600}
+.checkout-wrap{max-width:860px;margin:32px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:640px){.checkout-wrap{grid-template-columns:1fr}}
+.summary-card,.form-card{background:#fff;border-radius:16px;padding:28px;border:1px solid var(--borde)}
+.summary-card{height:fit-content}
+.summary-title{font-size:13px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+.kit-preview{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.kit-preview img{width:80px;height:80px;object-fit:contain}
+.kit-name{font-size:18px;font-weight:800}
+.kit-desc-text{font-size:12px;color:#888;margin-top:4px}
+.kit-badge-green{display:inline-block;background:var(--verde);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;margin-top:6px}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--borde)}
+.price-row.total{border-top:2px solid var(--texto)}
+.price-row.total .label{font-weight:800;font-size:16px}
+.price-row.total .amount{font-weight:900;font-size:22px}
+.price-row .label{font-size:13px;color:#666}
+.price-row .amount{font-size:14px;font-weight:700}
+.tachado{text-decoration:line-through;color:#aaa;font-weight:500}
+.verde{color:var(--verde)}
+.trust-mini{margin-top:20px;padding-top:16px;border-top:1px solid var(--borde)}
+.trust-mini-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;margin-bottom:8px}
+.form-title{font-size:16px;font-weight:800;margin-bottom:6px}
+.form-subtitle{font-size:12px;color:#888;margin-bottom:20px}
+.form-group{margin-bottom:14px}
+.form-label{font-size:11px;font-weight:700;color:#555;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px}
+.form-input{width:100%;padding:11px 13px;border:1.5px solid var(--borde);border-radius:8px;font-size:14px;font-family:'Montserrat',sans-serif;color:var(--texto);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--vino)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--borde)}
+.divider span{font-size:11px;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.payment-icons{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.payment-icon{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:4px;padding:4px 8px;font-size:11px;font-weight:700;color:#333}
+.payment-icon.visa{background:#1a1f71;color:#fff}
+.payment-icon.mc{background:#eb001b;color:#fff}
+.payment-icon.amex{background:#007bc1;color:#fff}
+.btn-pagar{width:100%;padding:16px;background:var(--verde);color:#fff;font-size:16px;font-weight:800;border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s;text-transform:uppercase;letter-spacing:1px;margin-top:16px}
+.btn-pagar:hover:not(:disabled){background:var(--verde-dark)}
+.btn-pagar:disabled{opacity:.6;cursor:not-allowed}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-pagar.loading .spinner{display:block}
+.btn-pagar.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.secure-note{text-align:center;font-size:11px;color:#aaa;margin-top:10px}
+.error-msg{background:#fff0f0;border:1px solid #ffcccc;color:#c0392b;padding:12px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-top:12px;display:none}
+.error-msg.visible{display:block}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:#888;font-size:13px;font-weight:600;text-decoration:none;margin-bottom:20px}
+.back-link:hover{color:var(--vino)}
+/* Card fields */
+.card-field-wrap{border:1.5px solid var(--borde);border-radius:8px;padding:11px 13px;background:#fff;transition:border-color .2s;min-height:44px}
+.card-field-wrap:focus-within{border-color:var(--vino)}
 </style>
 </head>
 <body>
@@ -91,9 +77,7 @@ fbq('track', 'PageView');
   <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_1_logo-panini-oficial.png?v=1779814061" alt="Panini">
   <div class="navbar-secure">🔒 Compra 100% segura</div>
 </nav>
-
 <div class="checkout-wrap">
-  <!-- RESUMEN -->
   <div>
     <a href="index.html" class="back-link">← Regresar</a>
     <div class="summary-card">
@@ -118,12 +102,9 @@ fbq('track', 'PageView');
       </div>
     </div>
   </div>
-
-  <!-- FORM -->
   <div class="form-card">
     <div class="form-title">Información de envío</div>
     <div class="form-subtitle">Completa tus datos para recibir tu pedido</div>
-
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Nombre completo</label>
@@ -140,7 +121,7 @@ fbq('track', 'PageView');
     </div>
     <div class="form-group">
       <label class="form-label">Calle y número</label>
-      <input type="text" id="calle" class="form-input" placeholder="Ej. Av. Insurgentes 123, Int. 4B">
+      <input type="text" id="calle" class="form-input" placeholder="Ej. Av. Insurgentes 123">
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -175,42 +156,50 @@ fbq('track', 'PageView');
         </select>
       </div>
     </div>
-
     <div class="divider"><span>Datos de pago</span></div>
-
     <div class="payment-icons">
       <span class="payment-icon visa">VISA</span>
       <span class="payment-icon mc">MC</span>
       <span class="payment-icon amex">AMEX</span>
       <span class="payment-icon">OXXO</span>
     </div>
-
-    <!-- Mercado Pago Brick -->
-    <div id="mp-card-form"></div>
-
+    <div class="form-group">
+      <label class="form-label">Número de tarjeta</label>
+      <div class="card-field-wrap" id="cardNumber"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Vencimiento</label>
+        <div class="card-field-wrap" id="expirationDate"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">CVC</label>
+        <div class="card-field-wrap" id="securityCode"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nombre en la tarjeta</label>
+      <input type="text" id="cardholderName" class="form-input" placeholder="Como aparece en tu tarjeta">
+    </div>
     <div class="error-msg" id="error-msg"></div>
-
     <button class="btn-pagar" id="btn-pagar">
       <div class="spinner"></div>
       <span class="btn-text" id="btn-texto">Pagar — $0 MXN →</span>
     </button>
-
     <div class="secure-note">🔒 Pago cifrado SSL · Protegido por Mercado Pago</div>
   </div>
 </div>
-
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
 const KITS = {
-  'kit-basico':        { nombre: 'Kit Básico',       desc: '1 Álbum + 10 sobres (~70 cromos)',             precio: 329,  original: 449,  img: 'imgi_4_kit-basico.png?v=1779814078' },
-  'kit-inicial':       { nombre: 'Kit Inicial',       desc: '1 Álbum + 1 Caja (30 sobres / ~210 cromos)',  precio: 749,  original: 999,  img: 'imgi_5_kit-iniciante.png?v=1779814078' },
-  'kit-campeon':       { nombre: 'Kit Campeón',       desc: '1 Álbum + 2 Cajas (60 sobres / ~420 cromos)', precio: 1199, original: 1799, img: 'imgi_6_kit-campeao.png?v=1779814078' },
-  'kit-coleccionista': { nombre: 'Kit Coleccionista', desc: '1 Álbum + 3 Cajas (90 sobres / ~630 cromos)', precio: 1899, original: 2499, img: 'imgi_3_kit-colecionador.png?v=1779814078' },
-  'golden-edition':    { nombre: 'Golden Edition',    desc: '1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)', precio: 4199, original: 4999, img: 'imgi_7_kit-capa-dourada.png?v=1779814074' },
-  'kit-estadio':       { nombre: 'Kit Estadio',       desc: '1 Álbum Edición Especial + 250 sobres',       precio: 5699, original: 6999, img: 'imgi_8_kit-estadio.png?v=1779814078' },
+  'kit-basico':        {nombre:'Kit Básico',       desc:'1 Álbum + 10 sobres (~70 cromos)',             precio:329,  original:449,  img:'imgi_4_kit-basico.png?v=1779814078'},
+  'kit-inicial':       {nombre:'Kit Inicial',       desc:'1 Álbum + 1 Caja (30 sobres / ~210 cromos)',  precio:749,  original:999,  img:'imgi_5_kit-iniciante.png?v=1779814078'},
+  'kit-campeon':       {nombre:'Kit Campeón',       desc:'1 Álbum + 2 Cajas (60 sobres / ~420 cromos)', precio:1199, original:1799, img:'imgi_6_kit-campeao.png?v=1779814078'},
+  'kit-coleccionista': {nombre:'Kit Coleccionista', desc:'1 Álbum + 3 Cajas (90 sobres / ~630 cromos)', precio:1899, original:2499, img:'imgi_3_kit-colecionador.png?v=1779814078'},
+  'golden-edition':    {nombre:'Golden Edition',    desc:'1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)',precio:4199,original:4999,img:'imgi_7_kit-capa-dourada.png?v=1779814074'},
+  'kit-estadio':       {nombre:'Kit Estadio',       desc:'1 Álbum Edición Especial + 250 sobres',       precio:5699, original:6999, img:'imgi_8_kit-estadio.png?v=1779814078'},
 };
 const CDN = 'https://cdn.shopify.com/s/files/1/0713/5654/7132/files/';
-
 const params = new URLSearchParams(window.location.search);
 const kitId = params.get('kit') || 'kit-campeon';
 const kit = KITS[kitId] || KITS['kit-campeon'];
@@ -223,92 +212,69 @@ document.getElementById('descuento').textContent = `-$${(kit.original - kit.prec
 document.getElementById('precio-total').textContent = `$${kit.precio.toLocaleString()} MXN`;
 document.getElementById('btn-texto').textContent = `Pagar — $${kit.precio.toLocaleString()} MXN →`;
 
-// Meta Pixel InitiateCheckout
-if (typeof fbq !== 'undefined') {
-  fbq('track', 'InitiateCheckout', { content_name: kit.nombre, currency: 'MXN', value: kit.precio });
-}
+if(typeof fbq!=='undefined') fbq('track','InitiateCheckout',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
 
-// Mercado Pago Public Key - reemplaza con tu clave
+// IMPORTANTE: Reemplaza con tu Public Key de MP
 const MP_PUBLIC_KEY = 'APP_USR-9f2b92f2-1b49-423a-b8ec-c611ffb9586c';
-const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: 'es-MX' });
-const bricks = mp.bricks();
+const mp = new MercadoPago(MP_PUBLIC_KEY, {locale:'es-MX'});
 
-let cardToken = null;
-let paymentData = null;
-
-const renderCardBrick = async () => {
-  await bricks.create('cardPayment', 'mp-card-form', {
-    initialization: {
-      amount: kit.precio,
-      payer: { email: '' },
+const cardForm = mp.cardForm({
+  amount: String(kit.precio),
+  iframe: true,
+  form: {
+    id: 'mp-form',
+    cardNumber: {id:'cardNumber', placeholder:'0000 0000 0000 0000'},
+    expirationDate: {id:'expirationDate', placeholder:'MM/AA'},
+    securityCode: {id:'securityCode', placeholder:'CVC'},
+    cardholderName: {id:'cardholderName', placeholder:'Como aparece en tu tarjeta'},
+    issuer: {id:'issuer'},
+    installments: {id:'installments'},
+    identificationType: {id:'docType'},
+    identificationNumber: {id:'docNumber'},
+    cardholderEmail: {id:'email'},
+  },
+  callbacks: {
+    onFormMounted: err => { if(err) console.error('Form mount error:', err); },
+    onSubmit: async event => {
+      event.preventDefault();
+      const { paymentMethodId, issuerId, cardholderEmail, token, installments, identificationNumber, identificationType } = cardForm.getCardFormData();
+      await procesarPago(token, paymentMethodId, issuerId, installments, identificationNumber, identificationType);
     },
-    customization: {
-      visual: {
-        style: {
-          theme: 'default',
-          customVariables: {
-            baseColor: '#1a9e5c',
-            buttonTextColor: '#ffffff',
-          },
-        },
-        hideFormTitle: true,
-        hidePaymentButton: true,
-      },
-      paymentMethods: {
-        types: { excluded: ['ticket', 'bank_transfer', 'atm'] },
-        maxInstallments: 1,
-      },
+    onFetching: resource => {
+      const btn = document.getElementById('btn-pagar');
+      btn.disabled = true;
+      return () => { btn.disabled = false; };
     },
-    callbacks: {
-      onReady: () => { document.getElementById('btn-pagar').disabled = false; },
-      onError: (error) => { showError('Error en el formulario de pago. Intenta de nuevo.'); },
-      onSubmit: async (data) => {
-        paymentData = data;
-        procesarPago();
-      },
-    },
-  });
-};
+  },
+});
 
-renderCardBrick();
-
-document.getElementById('btn-pagar').addEventListener('click', async () => {
-  const nombre  = document.getElementById('nombre').value.trim();
-  const email   = document.getElementById('email').value.trim();
+document.getElementById('btn-pagar').addEventListener('click', () => {
+  const nombre   = document.getElementById('nombre').value.trim();
+  const email    = document.getElementById('email').value.trim();
   const telefono = document.getElementById('telefono').value.trim();
-  const calle   = document.getElementById('calle').value.trim();
-  const colonia = document.getElementById('colonia').value.trim();
-  const cp      = document.getElementById('cp').value.trim();
-  const ciudad  = document.getElementById('ciudad').value.trim();
-  const estado  = document.getElementById('estado').value.trim();
+  const calle    = document.getElementById('calle').value.trim();
+  const colonia  = document.getElementById('colonia').value.trim();
+  const cp       = document.getElementById('cp').value.trim();
+  const ciudad   = document.getElementById('ciudad').value.trim();
+  const estado   = document.getElementById('estado').value.trim();
 
   document.getElementById('error-msg').classList.remove('visible');
+  if(!nombre)   return showError('Por favor ingresa tu nombre completo.');
+  if(!telefono) return showError('Por favor ingresa tu teléfono.');
+  if(!email||!email.includes('@')) return showError('Por favor ingresa un correo válido.');
+  if(!calle)    return showError('Por favor ingresa tu calle y número.');
+  if(!colonia)  return showError('Por favor ingresa tu colonia.');
+  if(!cp||cp.length<5) return showError('Por favor ingresa tu código postal.');
+  if(!ciudad)   return showError('Por favor ingresa tu ciudad.');
+  if(!estado)   return showError('Por favor selecciona tu estado.');
 
-  if (!nombre)   return showError('Por favor ingresa tu nombre completo.');
-  if (!telefono) return showError('Por favor ingresa tu teléfono.');
-  if (!email || !email.includes('@')) return showError('Por favor ingresa un correo válido.');
-  if (!calle)    return showError('Por favor ingresa tu calle y número.');
-  if (!colonia)  return showError('Por favor ingresa tu colonia.');
-  if (!cp || cp.length < 5) return showError('Por favor ingresa tu código postal.');
-  if (!ciudad)   return showError('Por favor ingresa tu ciudad.');
-  if (!estado)   return showError('Por favor selecciona tu estado.');
+  cardForm.submit();
+});
 
-  // Trigger MP Brick submit
+async function procesarPago(token, paymentMethodId, issuerId, installments, identificationNumber, identificationType) {
   const btn = document.getElementById('btn-pagar');
   btn.classList.add('loading');
   btn.disabled = true;
-
-  // Submit the brick form
-  try {
-    const brick = await mp.bricks().getController('cardPayment');
-    if (brick) await brick.getFormData();
-  } catch(e) {
-    // Brick will call onSubmit callback
-  }
-});
-
-async function procesarPago() {
-  if (!paymentData) return;
 
   const nombre   = document.getElementById('nombre').value.trim();
   const email    = document.getElementById('email').value.trim();
@@ -319,41 +285,24 @@ async function procesarPago() {
   const ciudad   = document.getElementById('ciudad').value.trim();
   const estado   = document.getElementById('estado').value.trim();
 
-  const btn = document.getElementById('btn-pagar');
-  btn.classList.add('loading');
-  btn.disabled = true;
-
   try {
     const res = await fetch('/api/mp-payment', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        kitId,
-        nombre, email, telefono, calle, colonia, cp, ciudad, estado,
-        token: paymentData.token,
-        installments: paymentData.installments,
-        issuer_id: paymentData.issuer_id,
-        payment_method_id: paymentData.payment_method_id,
-      }),
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({kitId, nombre, email, telefono, calle, colonia, cp, ciudad, estado, token, installments, issuer_id: issuerId, payment_method_id: paymentMethodId}),
     });
-
     const data = await res.json();
-
-    if (data.success) {
-      // Meta Pixel Purchase
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'Purchase', { content_name: kit.nombre, currency: 'MXN', value: kit.precio });
-      }
+    if(data.success) {
+      if(typeof fbq!=='undefined') fbq('track','Purchase',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
       window.location.href = `/success.html?kit=${encodeURIComponent(kit.nombre)}&email=${encodeURIComponent(email)}&monto=${kit.precio}`;
     } else {
-      showError(data.error || 'Pago rechazado. Verifica tus datos.');
+      showError(data.error || 'Pago rechazado. Verifica tus datos e intenta de nuevo.');
     }
   } catch(err) {
     showError('Error de conexión. Intenta de nuevo.');
   } finally {
     btn.classList.remove('loading');
     btn.disabled = false;
-    paymentData = null;
   }
 }
 
@@ -361,9 +310,8 @@ function showError(msg) {
   const el = document.getElementById('error-msg');
   el.textContent = msg;
   el.classList.add('visible');
-  const btn = document.getElementById('btn-pagar');
-  btn.classList.remove('loading');
-  btn.disabled = false;
+  document.getElementById('btn-pagar').classList.remove('loading');
+  document.getElementById('btn-pagar').disabled = false;
 }
 </script>
 </body>
