@@ -187,7 +187,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
       <div class="spinner"></div>
       <span class="btn-text" id="btn-texto">Pagar — $0 MXN →</span>
     </button>
-    <div class="secure-note">🔒 Pago cifrado SSL · Protegido por Mercado Pago</div>
+    <div class="secure-note">🔒 Pago cifrado SSL · </div>
   </div>
 </div>
 <script src="https://sdk.mercadopago.com/js/v2"></script>
@@ -216,7 +216,7 @@ document.getElementById('btn-texto').textContent = `Pagar — $${kit.precio.toLo
 if(typeof fbq!=='undefined') fbq('track','InitiateCheckout',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
 
 // IMPORTANTE: Reemplaza con tu Public Key de MP
-const MP_PUBLIC_KEY = 'APP_USR-TU_PUBLIC_KEY_AQUI';
+const MP_PUBLIC_KEY = 'APP_USR-9f2b92f2-1b49-423a-b8ec-c611ffb9586c';
 const mp = new MercadoPago(MP_PUBLIC_KEY, {locale:'es-MX'});
 
 const cardForm = mp.cardForm({
