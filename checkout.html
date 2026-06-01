@@ -68,8 +68,9 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
 .back-link{display:inline-flex;align-items:center;gap:6px;color:#888;font-size:13px;font-weight:600;text-decoration:none;margin-bottom:20px}
 .back-link:hover{color:var(--vino)}
 /* Card fields */
-.card-field-wrap{border:1.5px solid var(--borde);border-radius:8px;padding:11px 13px;background:#fff;transition:border-color .2s;min-height:44px}
-.card-field-wrap:focus-within{border-color:var(--vino)}
+.card-field-wrap{border:1.5px solid var(--borde);border-radius:8px;padding:0;background:#fff;transition:border-color .2s;min-height:48px;overflow:hidden;cursor:text;position:relative}
+.card-field-wrap:focus-within{border-color:var(--vino);box-shadow:0 0 0 3px rgba(107,15,26,.1)}
+.card-field-wrap iframe{width:100% !important;height:48px !important;border:none !important;padding:0 13px !important}
 </style>
 </head>
 <body>
@@ -215,12 +216,13 @@ document.getElementById('btn-texto').textContent = `Pagar — $${kit.precio.toLo
 if(typeof fbq!=='undefined') fbq('track','InitiateCheckout',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
 
 // IMPORTANTE: Reemplaza con tu Public Key de MP
-const MP_PUBLIC_KEY = 'APP_USR-9f2b92f2-1b49-423a-b8ec-c611ffb9586c';
+const MP_PUBLIC_KEY = 'APP_USR-TU_PUBLIC_KEY_AQUI';
 const mp = new MercadoPago(MP_PUBLIC_KEY, {locale:'es-MX'});
 
 const cardForm = mp.cardForm({
   amount: String(kit.precio),
   iframe: true,
+  autoMount: true,
   form: {
     id: 'mp-form',
     cardNumber: {id:'cardNumber', placeholder:'0000 0000 0000 0000'},
