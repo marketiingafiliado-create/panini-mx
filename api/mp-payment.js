@@ -38,7 +38,6 @@ module.exports = async (req, res) => {
         installments: parseInt(installments) || 1,
         payment_method_id,
         issuer_id: issuer_id || undefined,
-
         payer: {
           email,
           first_name: nombre.split(' ')[0],
@@ -52,51 +51,50 @@ module.exports = async (req, res) => {
             zip_code:    cp,
           },
         },
-
         additional_info: {
-          items: [
-            {
-              id:         kitId,
-              title:      kit.name,
-              description:kit.desc,
-              quantity:   1,
-              unit_price: kit.amount,
-            },
-          ],
+          items: [{
+            id:          kitId,
+            title:       kit.name,
+            description: kit.desc,
+            quantity:    1,
+            unit_price:  kit.amount,
+          }],
           payer: {
             first_name: nombre.split(' ')[0],
             last_name:  nombre.split(' ').slice(1).join(' ') || 'N/A',
-            phone: {
-              area_code: telefono.length >= 10 ? telefono.slice(0, 2) : '55',
-              number:    telefono.length >= 10 ? telefono.slice(2)    : telefono,
-            },
-            // ⚠️ SIN city_name ni state_name — MP no los acepta aquí
             address: {
               zip_code:    cp,
               street_name: calle,
             },
           },
         },
-
-        // Ciudad, estado y colonia van SOLO en metadata
-        metadata: {
-          kit:     kit.name,
-          colonia,
-          ciudad,
-          estado,
-        },
+        metadata: { kit: kit.name, colonia, ciudad, estado },
       },
     });
 
-    if (result.status === 'approved') {
-      return res.json({ success: true, status: 'approved', kit: kit.name, amount: kit.amount });
-    }
-    if (result.status === 'in_process' || result.status === 'pending') {
-      return res.json({ success: true, status: 'pending', kit: kit.name });
+    // Log completo para debug
+    console.log('MP Result:', JSON.stringify({
+      id:            result.id,
+      status:        result.status,
+      status_detail: result.status_detail,
+    }));
+
+    // Cualquier pago creado (approved, in_process, pending) = éxito para el usuario
+    // Solo rechazamos si status es explícitamente 'rejected'
+    if (result.status === 'rejected') {
+      return res.status(400).json({
+        error: traducirError(result.status_detail),
+      });
     }
 
-    return res.status(400).json({
-      error: result.status_detail || 'Pago rechazado. Intenta con otra tarjeta.',
+    // approved, in_process, pending → redirigir a success
+    return res.json({
+      success:       true,
+      status:        result.status,
+      status_detail: result.status_detail,
+      payment_id:    result.id,
+      kit:           kit.name,
+      amount:        kit.amount,
     });
 
   } catch (err) {
@@ -106,3 +104,22 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: msg });
   }
 };
+
+function traducirError(detail) {
+  const errores = {
+    'cc_rejected_bad_filled_card_number': 'Número de tarjeta incorrecto.',
+    'cc_rejected_bad_filled_date':        'Fecha de vencimiento incorrecta.',
+    'cc_rejected_bad_filled_other':       'Datos de la tarjeta incorrectos.',
+    'cc_rejected_bad_filled_security_code':'Código de seguridad incorrecto.',
+    'cc_rejected_blacklist':              'Tarjeta bloqueada. Usa otra tarjeta.',
+    'cc_rejected_call_for_authorize':     'Tarjeta requiere autorización. Llama a tu banco.',
+    'cc_rejected_card_disabled':          'Tarjeta desactivada. Contacta a tu banco.',
+    'cc_rejected_duplicated_payment':     'Pago duplicado. Espera unos minutos.',
+    'cc_rejected_high_risk':              'Pago rechazado por seguridad. Usa otra tarjeta.',
+    'cc_rejected_insufficient_amount':    'Fondos insuficientes.',
+    'cc_rejected_invalid_installments':   'Número de cuotas no permitido.',
+    'cc_rejected_max_attempts':           'Demasiados intentos. Usa otra tarjeta.',
+    'cc_rejected_other_reason':           'Pago rechazado. Intenta con otra tarjeta.',
+  };
+  return errores[detail] || `Pago rechazado (${detail}). Intenta con otra tarjeta.`;
+}
