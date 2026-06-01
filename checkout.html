@@ -236,7 +236,7 @@ document.getElementById('btn-texto').textContent    = `Pagar — $${kit.precio.t
 if (typeof fbq !== 'undefined') fbq('track','InitiateCheckout',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
 
 // ── Mercado Pago ──────────────────────────────────────────────────────────
-const MP_PUBLIC_KEY = 'APP_USR-9f2b92f2-1b49-423a-b8ec-c611ffb9586c';
+const MP_PUBLIC_KEY = 'TEST-23a34ad8-1379-4da3-a177-dadb1330364e';
 const mp = new MercadoPago(MP_PUBLIC_KEY, {locale:'es-MX'});
 
 const cardForm = mp.cardForm({
