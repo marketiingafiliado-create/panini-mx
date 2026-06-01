@@ -70,6 +70,8 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
 .card-field-wrap{border:1.5px solid var(--borde);border-radius:8px;background:#fff;transition:border-color .2s;overflow:hidden;min-height:46px;display:flex;align-items:center}
 .card-field-wrap:focus-within{border-color:var(--vino);box-shadow:0 0 0 3px rgba(107,15,26,.1)}
 #mp-hidden{display:none !important;position:absolute;left:-9999px}
+.loading-overlay{display:none;text-align:center;padding:20px;color:#888;font-size:13px}
+.loading-overlay.visible{display:block}
 </style>
 </head>
 <body>
@@ -107,7 +109,6 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
     <div class="form-title">Información de envío</div>
     <div class="form-subtitle">Completa tus datos para recibir tu pedido</div>
 
-    <!-- Campos de envío — fuera del form de MP -->
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Nombre completo</label>
@@ -168,7 +169,8 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
       <span class="payment-icon">OXXO</span>
     </div>
 
-    <!-- Form de MP — solo contiene campos de tarjeta -->
+    <div class="loading-overlay" id="mp-loading">⏳ Cargando formulario de pago...</div>
+
     <form id="mp-form">
       <div class="form-group">
         <label class="form-label">Número de tarjeta</label>
@@ -188,8 +190,6 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
         <label class="form-label">Nombre en la tarjeta</label>
         <input type="text" id="cardholderName" class="form-input" placeholder="Como aparece en tu tarjeta" autocomplete="cc-name">
       </div>
-
-      <!-- Campos auxiliares ocultos requeridos por MP -->
       <div id="mp-hidden">
         <select id="issuer"></select>
         <select id="installments"></select>
@@ -200,11 +200,9 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
     </form>
 
     <div class="error-msg" id="error-msg"></div>
-
-    <!-- Botón FUERA del form — evita doble submit -->
-    <button type="button" class="btn-pagar" id="btn-pagar">
+    <button type="button" class="btn-pagar" id="btn-pagar" disabled>
       <div class="spinner"></div>
-      <span class="btn-text" id="btn-texto">Pagar — $0 MXN →</span>
+      <span class="btn-text" id="btn-texto">Cargando...</span>
     </button>
     <div class="secure-note">🔒 Pago cifrado SSL · Powered by Mercado Pago</div>
   </div>
@@ -213,12 +211,12 @@ body{font-family:'Montserrat',sans-serif;background:var(--gris);color:var(--text
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
 const KITS = {
-  'kit-basico':        {nombre:'Kit Básico',       desc:'1 Álbum + 10 sobres (~70 cromos)',              precio:329,  original:449,  img:'imgi_4_kit-basico.png?v=1779814078'},
-  'kit-inicial':       {nombre:'Kit Inicial',       desc:'1 Álbum + 1 Caja (30 sobres / ~210 cromos)',   precio:749,  original:999,  img:'imgi_5_kit-iniciante.png?v=1779814078'},
-  'kit-campeon':       {nombre:'Kit Campeón',       desc:'1 Álbum + 2 Cajas (60 sobres / ~420 cromos)',  precio:1199, original:1799, img:'imgi_6_kit-campeao.png?v=1779814078'},
-  'kit-coleccionista': {nombre:'Kit Coleccionista', desc:'1 Álbum + 3 Cajas (90 sobres / ~630 cromos)',  precio:1899, original:2499, img:'imgi_3_kit-colecionador.png?v=1779814078'},
-  'golden-edition':    {nombre:'Golden Edition',    desc:'1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)',precio:4199,original:4999, img:'imgi_7_kit-capa-dourada.png?v=1779814074'},
-  'kit-estadio':       {nombre:'Kit Estadio',       desc:'1 Álbum Edición Especial + 250 sobres',        precio:5699, original:6999, img:'imgi_8_kit-estadio.png?v=1779814078'},
+  'kit-basico':        {nombre:'Kit Básico',       desc:'1 Álbum + 10 sobres (~70 cromos)',               precio:329,  original:449,  img:'imgi_4_kit-basico.png?v=1779814078'},
+  'kit-inicial':       {nombre:'Kit Inicial',       desc:'1 Álbum + 1 Caja (30 sobres / ~210 cromos)',    precio:749,  original:999,  img:'imgi_5_kit-iniciante.png?v=1779814078'},
+  'kit-campeon':       {nombre:'Kit Campeón',       desc:'1 Álbum + 2 Cajas (60 sobres / ~420 cromos)',   precio:1199, original:1799, img:'imgi_6_kit-campeao.png?v=1779814078'},
+  'kit-coleccionista': {nombre:'Kit Coleccionista', desc:'1 Álbum + 3 Cajas (90 sobres / ~630 cromos)',   precio:1899, original:2499, img:'imgi_3_kit-colecionador.png?v=1779814078'},
+  'golden-edition':    {nombre:'Golden Edition',    desc:'1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)',precio:4199, original:4999, img:'imgi_7_kit-capa-dourada.png?v=1779814074'},
+  'kit-estadio':       {nombre:'Kit Estadio',       desc:'1 Álbum Edición Especial + 250 sobres',         precio:5699, original:6999, img:'imgi_8_kit-estadio.png?v=1779814078'},
 };
 const CDN    = 'https://cdn.shopify.com/s/files/1/0713/5654/7132/files/';
 const params = new URLSearchParams(window.location.search);
@@ -231,112 +229,123 @@ document.getElementById('kit-desc').textContent     = kit.desc;
 document.getElementById('precio-original').textContent = `$${kit.original.toLocaleString()} MXN`;
 document.getElementById('descuento').textContent    = `-$${(kit.original - kit.precio).toLocaleString()} MXN`;
 document.getElementById('precio-total').textContent = `$${kit.precio.toLocaleString()} MXN`;
-document.getElementById('btn-texto').textContent    = `Pagar — $${kit.precio.toLocaleString()} MXN →`;
 
 if (typeof fbq !== 'undefined') fbq('track','InitiateCheckout',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
 
-// ── Mercado Pago ──────────────────────────────────────────────────────────
-const MP_PUBLIC_KEY = 'TEST-23a34ad8-1379-4da3-a177-dadb1330364e';
-const mp = new MercadoPago(MP_PUBLIC_KEY, {locale:'es-MX'});
+// ── Cargar Public Key desde el backend y luego inicializar MP ─────────────
+document.getElementById('mp-loading').classList.add('visible');
 
-const cardForm = mp.cardForm({
-  amount: String(kit.precio),
-  iframe: true,
-  form: {
-    id: 'mp-form',
-    cardNumber:          {id:'cardNumber',      placeholder:'0000 0000 0000 0000'},
-    expirationDate:      {id:'expirationDate',  placeholder:'MM/AA'},
-    securityCode:        {id:'securityCode',    placeholder:'CVC'},
-    cardholderName:      {id:'cardholderName'},
-    issuer:              {id:'issuer'},
-    installments:        {id:'installments'},
-    identificationType:  {id:'docType'},
-    identificationNumber:{id:'docNumber'},
-    cardholderEmail:     {id:'cardholderEmail'},
-  },
-  callbacks: {
-    onFormMounted: err => { if(err) console.warn('Mount error:', err); },
-    onSubmit: async event => {
-      event.preventDefault();
-      const formData = cardForm.getCardFormData();
-      const { token, paymentMethodId, issuerId, installments } = formData;
-      if (!token) { showError('No se pudo tokenizar la tarjeta. Verifica los datos.'); return; }
-      await procesarPago(token, paymentMethodId, issuerId, installments);
+fetch('/api/mp-config')
+  .then(r => r.json())
+  .then(cfg => {
+    document.getElementById('mp-loading').classList.remove('visible');
+    initMP(cfg.publicKey);
+  })
+  .catch(() => {
+    document.getElementById('mp-loading').textContent = '❌ Error cargando formulario. Recarga la página.';
+  });
+
+function initMP(publicKey) {
+  const mp = new MercadoPago(publicKey, {locale: 'es-MX'});
+
+  const cardForm = mp.cardForm({
+    amount: String(kit.precio),
+    iframe: true,
+    form: {
+      id: 'mp-form',
+      cardNumber:          {id:'cardNumber',      placeholder:'0000 0000 0000 0000'},
+      expirationDate:      {id:'expirationDate',  placeholder:'MM/AA'},
+      securityCode:        {id:'securityCode',    placeholder:'CVC'},
+      cardholderName:      {id:'cardholderName'},
+      issuer:              {id:'issuer'},
+      installments:        {id:'installments'},
+      identificationType:  {id:'docType'},
+      identificationNumber:{id:'docNumber'},
+      cardholderEmail:     {id:'cardholderEmail'},
     },
-    onFetching: () => {
-      setBtnLoading(true);
-      return () => setBtnLoading(false);
+    callbacks: {
+      onFormMounted: err => {
+        if (err) { console.warn('Mount error:', err); return; }
+        const btn = document.getElementById('btn-pagar');
+        btn.disabled = false;
+        document.getElementById('btn-texto').textContent = `Pagar — $${kit.precio.toLocaleString()} MXN →`;
+      },
+      onSubmit: async event => {
+        event.preventDefault();
+        const { token, paymentMethodId, issuerId, installments } = cardForm.getCardFormData();
+        if (!token) { showError('No se pudo tokenizar la tarjeta. Verifica los datos.'); return; }
+        await procesarPago(token, paymentMethodId, issuerId, installments);
+      },
+      onFetching: () => {
+        setBtnLoading(true);
+        return () => setBtnLoading(false);
+      },
+      onError: errs => {
+        console.error('MP errors:', errs);
+        if (errs && errs.length) showError(errs[0].message || 'Error en los datos de la tarjeta.');
+      },
     },
-    onError: errs => { console.error('MP cardForm errors:', errs); },
-  },
-});
+  });
 
-// ── Botón — valida envío y luego dispara submit del cardForm ──────────────
-document.getElementById('btn-pagar').addEventListener('click', () => {
-  const nombre   = v('nombre');
-  const telefono = v('telefono');
-  const email    = v('email');
-  const calle    = v('calle');
-  const colonia  = v('colonia');
-  const cp       = v('cp');
-  const ciudad   = v('ciudad');
-  const estado   = v('estado');
+  document.getElementById('btn-pagar').addEventListener('click', () => {
+    const nombre   = v('nombre');
+    const telefono = v('telefono');
+    const email    = v('email');
+    const calle    = v('calle');
+    const colonia  = v('colonia');
+    const cp       = v('cp');
+    const ciudad   = v('ciudad');
+    const estado   = v('estado');
 
-  hideError();
-  if (!nombre)               return showError('Por favor ingresa tu nombre completo.');
-  if (!telefono)             return showError('Por favor ingresa tu teléfono.');
-  if (!email||!email.includes('@')) return showError('Por favor ingresa un correo válido.');
-  if (!calle)                return showError('Por favor ingresa tu calle y número.');
-  if (!colonia)              return showError('Por favor ingresa tu colonia.');
-  if (!cp||cp.length<5)      return showError('Por favor ingresa tu código postal.');
-  if (!ciudad)               return showError('Por favor ingresa tu ciudad.');
-  if (!estado)               return showError('Por favor selecciona tu estado.');
+    hideError();
+    if (!nombre)               return showError('Por favor ingresa tu nombre completo.');
+    if (!telefono)             return showError('Por favor ingresa tu teléfono.');
+    if (!email||!email.includes('@')) return showError('Por favor ingresa un correo válido.');
+    if (!calle)                return showError('Por favor ingresa tu calle y número.');
+    if (!colonia)              return showError('Por favor ingresa tu colonia.');
+    if (!cp||cp.length<5)      return showError('Por favor ingresa tu código postal.');
+    if (!ciudad)               return showError('Por favor ingresa tu ciudad.');
+    if (!estado)               return showError('Por favor selecciona tu estado.');
 
-  // Sincronizar email al campo oculto de MP antes de submit
-  document.getElementById('cardholderEmail').value = email;
+    document.getElementById('cardholderEmail').value = email;
+    cardForm.submit();
+  });
 
-  // Disparar submit del form de MP — activa onSubmit callback
-  cardForm.submit();
-});
-
-async function procesarPago(token, payment_method_id, issuer_id, installments) {
-  setBtnLoading(true);
-
-  const nombre   = v('nombre');
-  const email    = v('email');
-  const telefono = v('telefono');
-  const calle    = v('calle');
-  const colonia  = v('colonia');
-  const cp       = v('cp');
-  const ciudad   = v('ciudad');
-  const estado   = v('estado');
-
-  try {
-    const res = await fetch('/api/mp-payment', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        kitId, nombre, email, telefono,
-        calle, colonia, cp, ciudad, estado,
-        token, installments, issuer_id, payment_method_id,
-      }),
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      if (typeof fbq !== 'undefined') fbq('track','Purchase',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
-      window.location.href = `/success.html?kit=${encodeURIComponent(kit.nombre)}&email=${encodeURIComponent(email)}&monto=${kit.precio}`;
-    } else {
-      showError(data.error || 'Pago rechazado. Verifica tus datos e intenta de nuevo.');
+  async function procesarPago(token, payment_method_id, issuer_id, installments) {
+    setBtnLoading(true);
+    try {
+      const res = await fetch('/api/mp-payment', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          kitId,
+          nombre:   v('nombre'),
+          email:    v('email'),
+          telefono: v('telefono'),
+          calle:    v('calle'),
+          colonia:  v('colonia'),
+          cp:       v('cp'),
+          ciudad:   v('ciudad'),
+          estado:   v('estado'),
+          token, installments, issuer_id, payment_method_id,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (typeof fbq !== 'undefined') fbq('track','Purchase',{content_name:kit.nombre,currency:'MXN',value:kit.precio});
+        window.location.href = `/success.html?kit=${encodeURIComponent(kit.nombre)}&email=${encodeURIComponent(v('email'))}&monto=${kit.precio}`;
+      } else {
+        showError(data.error || 'Pago rechazado. Verifica tus datos e intenta de nuevo.');
+      }
+    } catch(err) {
+      showError('Error de conexión. Intenta de nuevo.');
+    } finally {
+      setBtnLoading(false);
     }
-  } catch(err) {
-    showError('Error de conexión. Intenta de nuevo.');
-  } finally {
-    setBtnLoading(false);
   }
 }
 
-function v(id) { return document.getElementById(id).value.trim(); }
+function v(id)         { return document.getElementById(id).value.trim(); }
 function setBtnLoading(on) {
   const btn = document.getElementById('btn-pagar');
   btn.classList.toggle('loading', on);
