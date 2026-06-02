@@ -6,7 +6,9 @@ const KITS = {
   'kit-campeon':       { amount: 1199, name: 'Kit Campeón',       desc: '1 Álbum + 2 Cajas (60 sobres)' },
   'kit-coleccionista': { amount: 1899, name: 'Kit Coleccionista', desc: '1 Álbum + 3 Cajas (90 sobres)' },
   'golden-edition':    { amount: 4199, name: 'Golden Edition',    desc: '1 Álbum Pasta Dorada + 6 Cajas' },
-  'kit-estadio':       { amount: 5699, name: 'Kit Estadio',       desc: '1 Álbum Edición Especial + 250 sobres' },
+  'kit-estadio':        { amount: 5699, name: 'Kit Estadio',       desc: '1 Álbum Edición Especial + 250 sobres' },
+  'trophycup-1':       { amount: 599,  name: 'TrophyCup™ — 1 Copa',    desc: '1 Copa TrophyCup™ Edición Mundial 2026 (470ml)' },
+  'trophycup-duo':     { amount: 899,  name: 'Duo Pack — 2 Copas',     desc: '2 Copas TrophyCup™ + destapador de regalo' },
 };
 
 module.exports = async (req, res) => {
