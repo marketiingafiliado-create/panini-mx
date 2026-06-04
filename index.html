@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Álbum Oficial FIFA World Cup 2026 | Panini México</title>
+<title>Tienda Oficial FIFA World Cup 2026 | México</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,6 +12,7 @@
     --verde: #1a9e5c; --verde-dark: #157a47;
     --amarillo: #f5a623; --amarillo-dark: #e09010;
     --dorado: #c9a227; --dorado-dark: #a8861f;
+    --tricolor-verde: #006847; --tricolor-rojo: #ce1126;
     --blanco: #ffffff; --gris-claro: #f7f7f7; --gris: #e5e5e5;
     --texto: #1a1a1a; --texto-suave: #555;
   }
@@ -19,16 +20,15 @@
 
   /* NAVBAR */
   .navbar { background: var(--vino-dark); display: flex; align-items: center; justify-content: space-between; padding: 12px 32px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,.3); }
-  .navbar-logo img { height: 48px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
+  .navbar-logo img { height: 52px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
   .countdown-wrap { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,.85); font-weight: 600; }
-  .countdown-wrap .timer-label { opacity: .8; font-size: 11px; letter-spacing: .5px; }
+  .timer-label { opacity: .8; font-size: 11px; letter-spacing: .5px; }
   .countdown-digits { display: flex; gap: 3px; align-items: center; }
   .digit-block { background: #111; color: #fff; font-size: 18px; font-weight: 800; padding: 5px 10px; border-radius: 5px; min-width: 36px; text-align: center; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; box-shadow: inset 0 -2px 0 rgba(0,0,0,.4); }
   .digit-sep { font-weight: 900; font-size: 18px; color: rgba(255,255,255,.6); }
 
   /* TOP BAR */
   .top-bar { background: var(--vino); color: #fff; display: flex; align-items: center; justify-content: center; padding: 9px 24px; font-size: 13px; font-weight: 600; gap: 28px; flex-wrap: wrap; }
-  .top-bar .social-proof { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
   .top-bar .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 1.5s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
@@ -55,88 +55,79 @@
   .hero-secure { margin-top: 14px; font-size: 12px; color: #888; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
   /* STATS BAR */
-  .stats-bar { background: var(--vino); display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .stats-bar { background: var(--vino); display: flex; justify-content: center; flex-wrap: wrap; }
   .stat-item { padding: 16px 32px; text-align: center; border-right: 1px solid rgba(255,255,255,.15); flex: 1; min-width: 140px; }
   .stat-item:last-child { border-right: none; }
   .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--amarillo); letter-spacing: 1px; }
   .stat-label { font-size: 11px; color: rgba(255,255,255,.75); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
 
-  /* KITS SECTION */
-  .kits-section { padding: 60px 24px; background: var(--gris-claro); }
+  /* CATÁLOGO UNIFICADO */
+  .catalogo-section { padding: 60px 24px; background: var(--gris-claro); }
   .section-title { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 6vw, 56px); color: var(--texto); margin-bottom: 8px; }
   .section-desc { text-align: center; max-width: 560px; margin: 0 auto 40px; font-size: 15px; color: var(--texto-suave); line-height: 1.6; }
-  .kits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
 
-  .kit-card { background: #fff; border-radius: 16px; overflow: hidden; border: 2px solid var(--gris); position: relative; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
-  .kit-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.12); }
-  .kit-card.featured { border-color: var(--verde); box-shadow: 0 4px 24px rgba(26,158,92,.2); }
-  .kit-card.gold { border-color: var(--amarillo); box-shadow: 0 4px 24px rgba(245,166,35,.2); background: linear-gradient(135deg, #fffbf0 0%, #fff 100%); }
-  .kit-card.dark { border-color: #000; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); box-shadow: 0 4px 24px rgba(0,0,0,.4); }
+  /* Separador de categoría */
+  .cat-label { display: flex; align-items: center; gap: 14px; max-width: 1100px; margin: 0 auto 20px; }
+  .cat-label::before, .cat-label::after { content: ''; flex: 1; height: 1px; background: var(--gris); }
+  .cat-label span { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #aaa; white-space: nowrap; }
 
-  .kit-badge { position: absolute; top: 14px; right: 14px; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 5px 10px; border-radius: 20px; letter-spacing: .8px; }
+  .productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 40px; }
+
+  /* TARJETA PRODUCTO */
+  .prod-card { background: #fff; border-radius: 16px; overflow: hidden; border: 2px solid var(--gris); position: relative; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
+  .prod-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.12); }
+  .prod-card.featured { border-color: var(--verde); box-shadow: 0 4px 24px rgba(26,158,92,.2); }
+  .prod-card.gold { border-color: var(--amarillo); background: linear-gradient(135deg, #fffbf0 0%, #fff 100%); }
+  .prod-card.dark { border-color: #000; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
+  .prod-card.tricolor { border-color: var(--tricolor-verde); background: linear-gradient(135deg, #f0fff6 0%, #fff 50%, #fff5f5 100%); }
+  .prod-card.trophy-style { border-color: var(--dorado); background: linear-gradient(135deg, #fdf8ec 0%, #fffdf5 100%); }
+
+  .prod-badge { position: absolute; top: 14px; right: 14px; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 5px 10px; border-radius: 20px; letter-spacing: .8px; z-index: 1; }
   .badge-popular { background: var(--verde); color: #fff; }
   .badge-valor { background: var(--verde); color: #fff; }
   .badge-limited { background: var(--amarillo); color: #fff; }
   .badge-exclusive { background: linear-gradient(135deg, #7c3aed, #ec4899); color: #fff; }
-  .badge-duo { background: linear-gradient(135deg, #c9a227, #f5d76e); color: #5a3e00; }
+  .badge-nuevo { background: #ef4444; color: #fff; }
+  .badge-duo { background: linear-gradient(135deg, var(--tricolor-verde), #009e5c); color: #fff; }
+  .badge-trophy { background: linear-gradient(135deg, #c9a227, #f5d76e); color: #3a2800; }
 
-  .kit-img-wrap { padding: 24px 24px 0; text-align: center; }
-  .kit-img-wrap img { height: 160px; object-fit: contain; transition: transform .3s; }
-  .kit-card:hover .kit-img-wrap img { transform: scale(1.05); }
+  .prod-img-wrap { padding: 24px 24px 0; text-align: center; }
+  .prod-img-wrap img { height: 160px; object-fit: contain; transition: transform .3s; }
+  .prod-card:hover .prod-img-wrap img { transform: scale(1.05); }
 
-  .kit-body { padding: 20px 24px 24px; flex: 1; display: flex; flex-direction: column; }
-  .kit-name { font-size: 18px; font-weight: 800; color: var(--texto); margin-bottom: 4px; }
-  .kit-card.dark .kit-name { color: #fff; }
-  .kit-contents { font-size: 13px; font-weight: 700; color: var(--verde); margin-bottom: 4px; }
-  .kit-card.dark .kit-contents { color: var(--amarillo); }
-  .kit-desc { font-size: 12px; color: #888; margin-bottom: 16px; line-height: 1.5; flex: 1; }
-  .kit-card.dark .kit-desc { color: rgba(255,255,255,.5); }
-  .kit-pricing { margin-bottom: 16px; }
-  .kit-price { font-size: 28px; font-weight: 900; color: var(--texto); }
-  .kit-card.dark .kit-price { color: #fff; }
-  .kit-price-old { font-size: 14px; color: #aaa; text-decoration: line-through; margin-left: 8px; }
-  .kit-shipping { display: inline-block; font-size: 11px; font-weight: 700; color: var(--verde); margin-left: 8px; }
+  .prod-body { padding: 20px 24px 24px; flex: 1; display: flex; flex-direction: column; }
+  .prod-name { font-size: 17px; font-weight: 800; color: var(--texto); margin-bottom: 4px; }
+  .prod-card.dark .prod-name { color: #fff; }
+  .prod-card.gold .prod-name { color: #5a3e00; }
+  .prod-contents { font-size: 13px; font-weight: 700; color: var(--verde); margin-bottom: 4px; }
+  .prod-card.dark .prod-contents { color: var(--amarillo); }
+  .prod-card.gold .prod-contents { color: #b8860b; }
+  .prod-card.trophy-style .prod-contents { color: var(--dorado); }
+  .prod-card.tricolor .prod-contents { color: var(--tricolor-verde); }
+  .prod-desc { font-size: 12px; color: #888; margin-bottom: 16px; line-height: 1.5; flex: 1; }
+  .prod-card.dark .prod-desc { color: rgba(255,255,255,.5); }
+  .prod-pricing { margin-bottom: 16px; }
+  .prod-price { font-size: 28px; font-weight: 900; color: var(--texto); }
+  .prod-card.dark .prod-price { color: #fff; }
+  .prod-card.gold .prod-price { color: #5a3e00; }
+  .prod-card.trophy-style .prod-price { color: #3a2800; }
+  .prod-price-old { font-size: 14px; color: #aaa; text-decoration: line-through; margin-left: 8px; }
+  .prod-shipping { display: inline-block; font-size: 11px; font-weight: 700; color: var(--verde); margin-left: 8px; }
 
-  .btn-kit { display: block; width: 100%; text-align: center; background: var(--amarillo); color: #fff; font-size: 15px; font-weight: 800; padding: 14px; border-radius: 10px; text-decoration: none; border: none; cursor: pointer; transition: background .2s, transform .15s; text-transform: uppercase; letter-spacing: .5px; }
-  .btn-kit:hover { background: var(--amarillo-dark); transform: translateY(-1px); }
-  .btn-kit.dark-btn { background: var(--amarillo); color: #0d1b2a; }
-  .btn-kit.gold-btn { background: linear-gradient(135deg, #c9a227, #e8c84a); color: #3a2800; }
-  .btn-kit.gold-btn:hover { background: linear-gradient(135deg, #a8861f, #c9a227); }
+  .btn-prod { display: block; width: 100%; text-align: center; background: var(--amarillo); color: #fff; font-size: 15px; font-weight: 800; padding: 14px; border-radius: 10px; text-decoration: none; border: none; cursor: pointer; transition: background .2s, transform .15s; text-transform: uppercase; letter-spacing: .5px; }
+  .btn-prod:hover { background: var(--amarillo-dark); transform: translateY(-1px); }
+  .btn-prod.dark-btn { background: var(--amarillo); color: #0d1b2a; }
+  .btn-prod.gold-btn { background: linear-gradient(135deg, #c9a227, #e8c84a); color: #3a2800; }
+  .btn-prod.gold-btn:hover { background: linear-gradient(135deg, #a8861f, #c9a227); }
+  .btn-prod.tricolor-btn { background: linear-gradient(135deg, var(--tricolor-verde), #009e5c); color: #fff; }
+  .btn-prod.tricolor-btn:hover { opacity: .9; }
 
-  /* ── TROPHY SECTION ── */
-  .trophy-section { padding: 60px 24px; background: #fff; }
-  .trophy-header { text-align: center; margin-bottom: 40px; }
-  .trophy-eyebrow { display: inline-block; background: linear-gradient(135deg, #c9a227, #f5d76e); color: #3a2800; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 6px 16px; border-radius: 20px; margin-bottom: 14px; }
-  .trophy-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 6vw, 52px); color: var(--texto); margin-bottom: 8px; }
-  .trophy-desc { max-width: 520px; margin: 0 auto; font-size: 14px; color: #666; line-height: 1.6; }
-  .trophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 780px; margin: 0 auto; }
-
-  .trophy-card { background: linear-gradient(135deg, #fdf8ec 0%, #fffdf5 100%); border: 2px solid #e8d48a; border-radius: 20px; overflow: hidden; position: relative; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
-  .trophy-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(201,162,39,.25); }
-  .trophy-card.duo { border-color: #c9a227; background: linear-gradient(135deg, #fdf4d6 0%, #fffbea 100%); box-shadow: 0 4px 24px rgba(201,162,39,.2); }
-
-  .trophy-img-wrap { padding: 28px 28px 0; text-align: center; background: linear-gradient(180deg, rgba(201,162,39,.08) 0%, transparent 100%); }
-  .trophy-img-wrap img { height: 180px; object-fit: contain; transition: transform .3s; filter: drop-shadow(0 8px 20px rgba(201,162,39,.3)); }
-  .trophy-card:hover .trophy-img-wrap img { transform: scale(1.06) rotate(-1deg); }
-
-  .trophy-body { padding: 22px 24px 24px; flex: 1; display: flex; flex-direction: column; }
-  .trophy-name { font-size: 20px; font-weight: 900; color: #3a2800; margin-bottom: 4px; }
-  .trophy-contents { font-size: 13px; font-weight: 700; color: var(--dorado); margin-bottom: 8px; }
-  .trophy-features { list-style: none; margin-bottom: 16px; }
-  .trophy-features li { font-size: 12px; color: #666; padding: 3px 0; display: flex; align-items: center; gap: 6px; }
-  .trophy-features li::before { content: '✓'; color: var(--dorado); font-weight: 800; }
-  .trophy-pricing { margin-bottom: 16px; }
-  .trophy-price { font-size: 30px; font-weight: 900; color: #3a2800; }
-  .trophy-price-old { font-size: 14px; color: #bbb; text-decoration: line-through; margin-left: 8px; }
-  .trophy-shipping { display: inline-block; font-size: 11px; font-weight: 700; color: var(--dorado); margin-left: 8px; }
-
-  /* BRAND SECTION */
+  /* BRAND */
   .brand-section { padding: 60px 24px; text-align: center; background: #fff; }
   .brand-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 5vw, 48px); max-width: 700px; margin: 0 auto 32px; line-height: 1.1; }
   .brand-logos { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
   .brand-logos img { height: 44px; object-fit: contain; }
   .brand-stats { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; margin-bottom: 40px; }
-  .brand-stat { text-align: center; }
   .brand-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--verde); }
   .brand-stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; letter-spacing: 1px; }
   .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
@@ -167,7 +158,7 @@
   .review-stars { color: var(--amarillo); font-size: 13px; margin-bottom: 6px; }
   .review-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
   .review-text { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 10px; }
-  .review-verified { font-size: 11px; color: var(--verde); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+  .review-verified { font-size: 11px; color: var(--verde); font-weight: 600; }
 
   /* FINAL CTA */
   .final-cta { background: var(--gris-claro); padding: 48px 24px; text-align: center; }
@@ -186,22 +177,22 @@
   /* FOOTER */
   footer { background: var(--vino-dark); color: rgba(255,255,255,.8); padding: 48px 24px 24px; }
   .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto 32px; }
-  .footer-logo img { height: 44px; object-fit: contain; filter: brightness(0) invert(1); margin-bottom: 12px; }
+  .footer-logo img { height: 52px; object-fit: contain; filter: brightness(0) invert(1); margin-bottom: 12px; }
   .footer-tagline { font-size: 13px; opacity: .7; line-height: 1.6; max-width: 280px; }
   .footer-links h4 { color: var(--amarillo); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
-  .footer-links a { display: block; font-size: 13px; color: rgba(255,255,255,.7); text-decoration: none; margin-bottom: 8px; transition: color .2s; }
+  .footer-links a { display: block; font-size: 13px; color: rgba(255,255,255,.7); text-decoration: none; margin-bottom: 8px; }
   .footer-links a:hover { color: #fff; }
   .footer-payments { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-  .payment-badge { background: #fff; color: #333; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; letter-spacing: .5px; }
+  .payment-badge { background: #fff; color: #333; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; }
   .payment-badge.visa { background: #1a1f71; color: #fff; }
   .payment-badge.mc { background: #eb001b; color: #fff; }
-  .ssl-note { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+  .ssl-note { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 10px; }
   .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 20px; text-align: center; font-size: 12px; color: rgba(255,255,255,.4); max-width: 900px; margin: 0 auto; }
 
   @media (max-width: 640px) {
     .footer-top { grid-template-columns: 1fr; gap: 24px; }
     .top-bar { flex-direction: column; text-align: center; }
-    .kits-grid, .trophy-grid { grid-template-columns: 1fr; }
+    .productos-grid { grid-template-columns: 1fr; }
     .stat-item { min-width: 50%; }
   }
 </style>
@@ -212,14 +203,16 @@ n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1727421338678576');fbq('track','PageView');
-fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type:'product',currency:'MXN'});
+fbq('track','ViewContent',{content_name:'Tienda Mundial 2026',content_type:'product',currency:'MXN'});
 </script>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="navbar-logo"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_1_logo-panini-oficial.png?v=1779814061" alt="Panini"></div>
+  <div class="navbar-logo">
+    <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/WhatsApp_Image_2026-05-03_at_2.05.05_PM.jpg?v=1780543452" alt="Logo">
+  </div>
   <div class="countdown-wrap">
     <span class="timer-label">⏱ LA OFERTA TERMINA EN</span>
     <div class="countdown-digits">
@@ -232,16 +225,14 @@ fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <div class="social-proof">
-    <span><span class="dot"></span><strong id="comprando">135</strong> comprando ahora</span>
-    <span>🎁 <strong id="vendidos">675</strong> vendidos hoy</span>
-  </div>
+  <span><span class="dot"></span><strong id="comprando">135</strong> comprando ahora</span>
+  <span>🎁 <strong id="vendidos">675</strong> vendidos hoy</span>
 </div>
 
 <!-- PREVENTA BAR -->
 <div class="preventa-bar">
-  <span class="preventa-badge">PRE-VENTA</span>
-  1 compra por persona — <strong>Oferta de preventa exclusiva</strong>
+  <span class="preventa-badge">OFERTA</span>
+  Descuentos exclusivos por tiempo limitado — <strong>Stock limitado</strong>
 </div>
 
 <!-- TRUST BAR -->
@@ -249,202 +240,202 @@ fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type
   <div class="trust-item"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Sitio 100% seguro</div>
   <div class="trust-item"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Compra protegida</div>
   <div class="trust-item"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Envío gratis México</div>
-  <div class="trust-item"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Producto original</div>
+  <div class="trust-item"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Productos originales</div>
 </div>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-rfc-btn">COMPRA ÚNICA POR RFC</div>
+  <div class="hero-rfc-btn">TIENDA OFICIAL MUNDIAL 2026</div>
   <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_2_fifa-wc26-logo.png?v=1779814062" alt="FIFA World Cup 2026" class="hero-fifa-logo">
-  <div class="hero-label">Álbum Oficial</div>
-  <div class="hero-sub">FIFA World Cup 26™ | Panini</div>
+  <div class="hero-label">Colección Oficial</div>
+  <div class="hero-sub">FIFA World Cup 26™</div>
   <div class="hero-title">MUNDIAL<br>2026</div>
-  <p class="hero-desc">¡El evento más grande del fútbol mundial ya viene! Consigue tu álbum de pasta dura con 10, 30, 60, 90, 180 o 250 sobres de cromos incluidos.</p>
-  <p class="hero-stock">¡Solo 5,000 unidades disponibles para México!</p>
-  <a href="#kits" class="btn-comprar">
+  <p class="hero-desc">Álbumes Panini, copas de colección, enfriadores y más. Todo lo que necesitas para vivir el Mundial 2026 al máximo.</p>
+  <p class="hero-stock">¡Stock limitado para México!</p>
+  <a href="#catalogo" class="btn-comprar">
     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-    Comprar Ahora
+    Ver Productos
   </a>
   <div class="hero-secure">🔒 Pago 100% seguro</div>
 </section>
 
-<!-- STATS BAR -->
+<!-- STATS -->
 <div class="stats-bar">
-  <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Cromos por sobre</div></div>
-  <div class="stat-item"><div class="stat-num">670+</div><div class="stat-label">Cromos únicas en el álbum</div></div>
-  <div class="stat-item"><div class="stat-num">48</div><div class="stat-label">Selecciones</div></div>
+  <div class="stat-item"><div class="stat-num">9</div><div class="stat-label">Productos disponibles</div></div>
+  <div class="stat-item"><div class="stat-num">48</div><div class="stat-label">Selecciones Mundial</div></div>
+  <div class="stat-item"><div class="stat-num">+2k</div><div class="stat-label">Clientes satisfechos</div></div>
   <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Calificación promedio</div></div>
 </div>
 
-<!-- KITS PANINI -->
-<section class="kits-section" id="kits">
-  <div class="section-title">Elige tu kit</div>
-  <p class="section-desc">¡Entre más sobres tengas, más posibilidades de completar el álbum! Envío gratis en todos los kits a todo México.</p>
-  <div class="kits-grid">
+<!-- CATÁLOGO UNIFICADO -->
+<section class="catalogo-section" id="catalogo">
+  <div class="section-title">Nuestra Colección</div>
+  <p class="section-desc">Todos los productos oficiales del Mundial 2026 en un solo lugar. Envío gratis a todo México.</p>
 
-    <div class="kit-card">
-      <div class="kit-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_4_kit-basico.png?v=1779814078" alt="Kit Básico"></div>
-      <div class="kit-body">
-        <div class="kit-name">Kit Básico</div>
-        <div class="kit-contents">1 Álbum + 10 sobres (~70 cromos)</div>
-        <div class="kit-desc">Álbum pasta dura + 10 sobres sellados · 7 cromos por sobre</div>
-        <div class="kit-pricing"><span class="kit-price">$329</span><span class="kit-price-old">$449</span><span class="kit-shipping">Envío gratis</span></div>
-        <a href="checkout.html?kit=kit-basico" class="btn-kit">Quiero mi kit →</a>
+  <!-- ÁLBUMES PANINI -->
+  <div class="cat-label"><span>📚 Álbumes Panini FIFA World Cup 2026</span></div>
+  <div class="productos-grid">
+
+    <div class="prod-card">
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_4_kit-basico.png?v=1779814078" alt="Kit Básico"></div>
+      <div class="prod-body">
+        <div class="prod-name">Kit Básico</div>
+        <div class="prod-contents">1 Álbum + 10 sobres (~70 cromos)</div>
+        <div class="prod-desc">Álbum pasta dura + 10 sobres sellados · 7 cromos por sobre</div>
+        <div class="prod-pricing"><span class="prod-price">$329</span><span class="prod-price-old">$449</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=kit-basico" class="btn-prod">Comprar →</a>
       </div>
     </div>
 
-    <div class="kit-card">
-      <div class="kit-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_5_kit-iniciante.png?v=1779814078" alt="Kit Inicial"></div>
-      <div class="kit-body">
-        <div class="kit-name">Kit Inicial</div>
-        <div class="kit-contents">1 Álbum + 1 Caja (30 sobres / ~210 cromos)</div>
-        <div class="kit-desc">Álbum pasta dura + 1 caja sellada (30 sobres · 7 cromos por sobre)</div>
-        <div class="kit-pricing"><span class="kit-price">$749</span><span class="kit-price-old">$999</span><span class="kit-shipping">Envío gratis</span></div>
-        <a href="checkout.html?kit=kit-inicial" class="btn-kit">Quiero mi kit →</a>
+    <div class="prod-card">
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_5_kit-iniciante.png?v=1779814078" alt="Kit Inicial"></div>
+      <div class="prod-body">
+        <div class="prod-name">Kit Inicial</div>
+        <div class="prod-contents">1 Álbum + 1 Caja (30 sobres / ~210 cromos)</div>
+        <div class="prod-desc">Álbum pasta dura + 1 caja sellada · 7 cromos por sobre</div>
+        <div class="prod-pricing"><span class="prod-price">$749</span><span class="prod-price-old">$999</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=kit-inicial" class="btn-prod">Comprar →</a>
       </div>
     </div>
 
-    <div class="kit-card featured">
-      <span class="kit-badge badge-popular">Más Vendido</span>
-      <div class="kit-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_6_kit-campeao.png?v=1779814078" alt="Kit Campeón"></div>
-      <div class="kit-body">
-        <div class="kit-name">Kit Campeón</div>
-        <div class="kit-contents">1 Álbum + 2 Cajas (60 sobres / ~420 cromos)</div>
-        <div class="kit-desc">Álbum pasta dura + 2 cajas selladas (60 sobres · 7 cromos por sobre)</div>
-        <div class="kit-pricing"><span class="kit-price">$999</span><span class="kit-price-old">$1,799</span><span class="kit-shipping">Envío gratis</span></div>
-        <a href="checkout.html?kit=kit-campeon" class="btn-kit">Quiero mi kit →</a>
+    <div class="prod-card featured">
+      <span class="prod-badge badge-popular">Más Vendido</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_6_kit-campeao.png?v=1779814078" alt="Kit Campeón"></div>
+      <div class="prod-body">
+        <div class="prod-name">Kit Campeón</div>
+        <div class="prod-contents">1 Álbum + 2 Cajas (60 sobres / ~420 cromos)</div>
+        <div class="prod-desc">Álbum pasta dura + 2 cajas selladas · 7 cromos por sobre</div>
+        <div class="prod-pricing"><span class="prod-price">$1,199</span><span class="prod-price-old">$1,799</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=kit-campeon" class="btn-prod">Comprar →</a>
       </div>
     </div>
 
-    <div class="kit-card">
-      <span class="kit-badge badge-valor">Mejor Valor</span>
-      <div class="kit-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_3_kit-colecionador.png?v=1779814078" alt="Kit Coleccionista"></div>
-      <div class="kit-body">
-        <div class="kit-name">Kit Coleccionista</div>
-        <div class="kit-contents">1 Álbum + 3 Cajas (90 sobres / ~630 cromos)</div>
-        <div class="kit-desc">Álbum pasta dura + 3 cajas selladas (90 sobres · 7 cromos por sobre)</div>
-        <div class="kit-pricing"><span class="kit-price">$1,499</span><span class="kit-price-old">$2,499</span><span class="kit-shipping">Envío gratis</span></div>
-        <a href="checkout.html?kit=kit-coleccionista" class="btn-kit">Quiero mi kit →</a>
+    <div class="prod-card">
+      <span class="prod-badge badge-valor">Mejor Valor</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_3_kit-colecionador.png?v=1779814078" alt="Kit Coleccionista"></div>
+      <div class="prod-body">
+        <div class="prod-name">Kit Coleccionista</div>
+        <div class="prod-contents">1 Álbum + 3 Cajas (90 sobres / ~630 cromos)</div>
+        <div class="prod-desc">Álbum pasta dura + 3 cajas selladas · 7 cromos por sobre</div>
+        <div class="prod-pricing"><span class="prod-price">$1,499</span><span class="prod-price-old">$2,499</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=kit-coleccionista" class="btn-prod">Comprar →</a>
       </div>
     </div>
 
-    <div class="kit-card gold">
-      <span class="kit-badge badge-limited">Edición Limitada</span>
-      <div class="kit-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_7_kit-capa-dourada.png?v=1779814074" alt="Golden Edition"></div>
-      <div class="kit-body">
-        <div class="kit-name" style="color:#5a3e00;">Golden Edition</div>
-        <div class="kit-contents" style="color:#b8860b;">1 Álbum Pasta Dorada + 6 Cajas (180 sobres / ~1,260 cromos)</div>
-        <div class="kit-desc">Álbum pasta dorada + 6 cajas selladas · Edición limitada</div>
-        <div class="kit-pricing"><span class="kit-price" style="color:#5a3e00;">$2,199</span><span class="kit-price-old">$4,999</span><span class="kit-shipping">Envío gratis</span></div>
-        <a href="checkout.html?kit=golden-edition" class="btn-kit">Quiero mi kit →</a>
+    <div class="prod-card gold">
+      <span class="prod-badge badge-limited">Edición Limitada</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_7_kit-capa-dourada.png?v=1779814074" alt="Golden Edition"></div>
+      <div class="prod-body">
+        <div class="prod-name" style="color:#5a3e00;">Golden Edition</div>
+        <div class="prod-contents" style="color:#b8860b;">1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)</div>
+        <div class="prod-desc">Álbum pasta dorada + 6 cajas selladas · Edición limitada</div>
+        <div class="prod-pricing"><span class="prod-price" style="color:#5a3e00;">$2,199</span><span class="prod-price-old">$4,999</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=golden-edition" class="btn-prod">Comprar →</a>
       </div>
     </div>
 
-    <div class="kit-card dark">
-      <span class="kit-badge badge-exclusive">Exclusivo</span>
-      <div class="kit-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_8_kit-estadio.png?v=1779814078" alt="Kit Estadio"></div>
-      <div class="kit-body">
-        <div class="kit-name">Kit Estadio</div>
-        <div class="kit-contents">1 Álbum Edición Especial + 250 sobres (~1,750 cromos)</div>
-        <div class="kit-desc">Álbum pasta dura edición especial numerada + 250 sobres sellados</div>
-        <div class="kit-pricing"><span class="kit-price">$2,699</span><span class="kit-price-old" style="color:rgba(255,255,255,.4);">$6,999</span><span class="kit-shipping">Envío gratis</span></div>
-        <a href="checkout.html?kit=kit-estadio" class="btn-kit dark-btn">Quiero mi kit →</a>
+    <div class="prod-card dark">
+      <span class="prod-badge badge-exclusive">Exclusivo</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_8_kit-estadio.png?v=1779814078" alt="Kit Estadio"></div>
+      <div class="prod-body">
+        <div class="prod-name">Kit Estadio</div>
+        <div class="prod-contents">1 Álbum Edición Especial + 250 sobres (~1,750 cromos)</div>
+        <div class="prod-desc">Álbum pasta dura edición especial numerada + 250 sobres sellados</div>
+        <div class="prod-pricing"><span class="prod-price">$2,699</span><span class="prod-price-old" style="color:rgba(255,255,255,.4);">$6,999</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=kit-estadio" class="btn-prod dark-btn">Comprar →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TROPHYCUP -->
+  <div class="cat-label"><span>🏆 TrophyCup™ — Copas Edición Mundial 2026</span></div>
+  <div class="productos-grid">
+
+    <div class="prod-card trophy-style">
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_21_ChatGPT_Image_30_may_2026_22_10_33.png?v=1780362727" alt="TrophyCup 1 Copa"></div>
+      <div class="prod-body">
+        <div class="prod-name">TrophyCup™ — 1 Copa</div>
+        <div class="prod-contents">Tu copa para el Mundial 🌍</div>
+        <div class="prod-desc">Vaso réplica del trofeo FIFA · 470ml · Vidrio sin plomo · Embalaje protector</div>
+        <div class="prod-pricing"><span class="prod-price" style="color:#3a2800;">$599</span><span class="prod-price-old">$999</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=trophycup-1" class="btn-prod gold-btn">Comprar →</a>
+      </div>
+    </div>
+
+    <div class="prod-card trophy-style">
+      <span class="prod-badge badge-trophy">Más Vendido</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_40_ChatGPT_Image_30_may_2026_21_51_56.png?v=1780362729" alt="TrophyCup Duo Pack"></div>
+      <div class="prod-body">
+        <div class="prod-name">Duo Pack — 2 Copas</div>
+        <div class="prod-contents">🎁 + 1 destapador de REGALO</div>
+        <div class="prod-desc">2 copas TrophyCup™ + destapador edición Mundial · 470ml c/u</div>
+        <div class="prod-pricing"><span class="prod-price" style="color:#3a2800;">$899</span><span class="prod-price-old">$1,599</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=trophycup-duo" class="btn-prod gold-btn">Comprar →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FROST BUDDY -->
+  <div class="cat-label"><span>🇲🇽 Frost Buddy™ — Enfriador Edición México</span></div>
+  <div class="productos-grid">
+
+    <div class="prod-card tricolor">
+      <span class="prod-badge badge-nuevo">Nuevo</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_144.jpg?v=1780544621" alt="Frost Buddy 1 pieza"></div>
+      <div class="prod-body">
+        <div class="prod-name">Frost Buddy™ — 1 Pieza</div>
+        <div class="prod-contents">Enfriador edición México 🇲🇽</div>
+        <div class="prod-desc">Acero inoxidable doble pared · Mantiene tu cerveza fría 24hrs · Diseño bandera mexicana · Ajuste rosca + abridor desmontable</div>
+        <div class="prod-pricing"><span class="prod-price" style="color:#006847;">$899</span><span class="prod-price-old">$1,824</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=frostbuddy-1" class="btn-prod tricolor-btn">Comprar →</a>
+      </div>
+    </div>
+
+    <div class="prod-card tricolor">
+      <span class="prod-badge badge-duo">2x1 Ahorro</span>
+      <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_144.jpg?v=1780544621" alt="Frost Buddy 2 piezas"></div>
+      <div class="prod-body">
+        <div class="prod-name">Frost Buddy™ — 2 Piezas</div>
+        <div class="prod-contents">Pack pareja · ¡Ahorra $399! 🍺🍺</div>
+        <div class="prod-desc">2 enfriadores edición México · Acero inoxidable doble pared · Perfectos para ver el Mundial con tu acompañante</div>
+        <div class="prod-pricing"><span class="prod-price" style="color:#006847;">$1,399</span><span class="prod-price-old">$3,648</span><span class="prod-shipping">Envío gratis</span></div>
+        <a href="checkout.html?kit=frostbuddy-2" class="btn-prod tricolor-btn">Comprar →</a>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- ── TROPHYCUP SECTION ── -->
-<section class="trophy-section" id="trophycup">
-  <div class="trophy-header">
-    <div class="trophy-eyebrow">🏆 Nuevo producto</div>
-    <div class="trophy-title">TrophyCup™ — Edición Mundial 2026</div>
-    <p class="trophy-desc">La forma más épica de celebrar cada gol. Vaso copa en forma del trofeo FIFA, diseño premium con esencia de colección.</p>
-  </div>
-  <div class="trophy-grid">
-
-    <!-- 1 Copa -->
-    <div class="trophy-card">
-      <div class="trophy-img-wrap">
-        <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_21_ChatGPT_Image_30_may_2026_22_10_33.png?v=1780362727" alt="TrophyCup 1 Copa">
-      </div>
-      <div class="trophy-body">
-        <div class="trophy-name">TrophyCup™ — 1 Copa</div>
-        <div class="trophy-contents">Tu copa para el Mundial 🌍</div>
-        <ul class="trophy-features">
-          <li>Capacidad 470 ml (16 oz)</li>
-          <li>Vidrio transparente sin plomo</li>
-          <li>Diseño réplica trofeo FIFA 2026</li>
-          <li>Embalaje protector incluido</li>
-          <li>Envío gratis y asegurado</li>
-        </ul>
-        <div class="trophy-pricing">
-          <span class="trophy-price">$599</span>
-          <span class="trophy-price-old">$999</span>
-          <span class="trophy-shipping">Envío gratis</span>
-        </div>
-        <a href="checkout.html?kit=trophycup-1" class="btn-kit gold-btn">Quiero mi TrophyCup →</a>
-      </div>
-    </div>
-
-    <!-- Duo Pack -->
-    <div class="trophy-card duo">
-      <span class="kit-badge badge-duo">Más Vendido</span>
-      <div class="trophy-img-wrap">
-        <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_40_ChatGPT_Image_30_may_2026_21_51_56.png?v=1780362729" alt="TrophyCup Duo Pack">
-      </div>
-      <div class="trophy-body">
-        <div class="trophy-name">Duo Pack — 2 Copas</div>
-        <div class="trophy-contents">🎁 + 1 destapador de REGALO</div>
-        <ul class="trophy-features">
-          <li>2 copas TrophyCup™ originales</li>
-          <li>Destapador edición Mundial incluido</li>
-          <li>Capacidad 470 ml c/u</li>
-          <li>Vidrio transparente sin plomo</li>
-          <li>Envío gratis y asegurado</li>
-        </ul>
-        <div class="trophy-pricing">
-          <span class="trophy-price">$899</span>
-          <span class="trophy-price-old">$1,599</span>
-          <span class="trophy-shipping">Envío gratis</span>
-        </div>
-        <a href="checkout.html?kit=trophycup-duo" class="btn-kit gold-btn">Quiero mi Duo Pack →</a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- BRAND SECTION -->
+<!-- BRAND -->
 <section class="brand-section">
-  <div class="brand-title">El álbum oficial más esperado del mundo</div>
+  <div class="brand-title">Todo lo que necesitas para el Mundial 2026</div>
   <div class="brand-logos">
-    <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_1_logo-panini-oficial.png?v=1779814061" alt="Panini">
+    <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/WhatsApp_Image_2026-05-03_at_2.05.05_PM.jpg?v=1780543452" alt="Logo" style="height:52px;">
     <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_2_fifa-wc26-logo.png?v=1779814062" alt="FIFA WC26">
   </div>
-  <p style="max-width:560px;margin:0 auto 32px;font-size:14px;color:#666;line-height:1.7;">Desde 1970, Panini es la marca de referencia mundial para los cromos de fútbol. El álbum de la FIFA World Cup 26™ es el único producto con licencia oficial FIFA.</p>
   <div class="brand-stats">
-    <div class="brand-stat"><div class="brand-stat-num">+55</div><div class="brand-stat-label">Años de historia</div></div>
-    <div class="brand-stat"><div class="brand-stat-num">140+</div><div class="brand-stat-label">Países</div></div>
-    <div class="brand-stat"><div class="brand-stat-num">1B+</div><div class="brand-stat-label">Cromos vendidas/año</div></div>
+    <div class="brand-stat"><div class="brand-stat-num">+55</div><div class="brand-stat-label">Años Panini</div></div>
+    <div class="brand-stat"><div class="brand-stat-num">9</div><div class="brand-stat-label">Productos</div></div>
+    <div class="brand-stat"><div class="brand-stat-num">+2k</div><div class="brand-stat-label">Clientes</div></div>
   </div>
   <div class="benefits-grid">
-    <div class="benefit-card"><div class="benefit-icon">🏆</div><div class="benefit-title">Licencia FIFA Oficial</div><div class="benefit-desc">El único álbum con licencia oficial FIFA para el Mundial 2026.</div></div>
-    <div class="benefit-card"><div class="benefit-icon">📦</div><div class="benefit-title">Cajas 100% Selladas</div><div class="benefit-desc">Todas las cajas llegan con sello de fábrica intacto.</div></div>
+    <div class="benefit-card"><div class="benefit-icon">🏆</div><div class="benefit-title">Productos Originales</div><div class="benefit-desc">Licencia oficial FIFA. Productos auténticos y certificados.</div></div>
+    <div class="benefit-card"><div class="benefit-icon">📦</div><div class="benefit-title">100% Sellados</div><div class="benefit-desc">Todos los productos llegan con sello de fábrica intacto.</div></div>
     <div class="benefit-card"><div class="benefit-icon">🚚</div><div class="benefit-title">Envío Rastreado</div><div class="benefit-desc">Entrega en 2–4 días hábiles a todo México.</div></div>
-    <div class="benefit-card"><div class="benefit-icon">⭐</div><div class="benefit-title">112 Páginas</div><div class="benefit-desc">El álbum Panini más grande de la historia. 670+ cromos únicas.</div></div>
+    <div class="benefit-card"><div class="benefit-icon">↩️</div><div class="benefit-title">Garantía 7 días</div><div class="benefit-desc">Satisfacción garantizada o te devolvemos tu dinero.</div></div>
   </div>
 </section>
 
 <!-- WHY NOW -->
 <section class="why-section">
-  <div class="section-title">¿Por qué pedir tu kit ahora?</div>
+  <div class="section-title">¿Por qué comprar ahora?</div>
   <div class="why-grid">
-    <div class="why-card"><div class="why-emoji">🚚</div><div class="why-title">Entrega prioritaria</div><div class="why-desc">Recíbelo antes que todos los demás</div></div>
+    <div class="why-card"><div class="why-emoji">🚚</div><div class="why-title">Entrega prioritaria</div><div class="why-desc">Recíbelo antes del Mundial</div></div>
     <div class="why-card"><div class="why-emoji">🎁</div><div class="why-title">Descuento exclusivo</div><div class="why-desc">Solo en esta oferta en línea</div></div>
-    <div class="why-card"><div class="why-emoji">✅</div><div class="why-title">Producto original Panini</div><div class="why-desc">Garantía de autenticidad</div></div>
-    <div class="why-card"><div class="why-emoji">📦</div><div class="why-title">Envío gratis</div><div class="why-desc">Envío gratis a todo México</div></div>
+    <div class="why-card"><div class="why-emoji">✅</div><div class="why-title">Productos originales</div><div class="why-desc">Garantía de autenticidad</div></div>
+    <div class="why-card"><div class="why-emoji">📦</div><div class="why-title">Envío gratis</div><div class="why-desc">A todo México sin costo</div></div>
   </div>
 </section>
 
@@ -452,12 +443,10 @@ fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type
 <section class="reviews-section">
   <div class="reviews-header"><div class="stars">★★★★★</div><div class="reviews-count">Calificación Excelente · +2,200 reseñas</div></div>
   <div class="reviews-grid">
-    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_9_avatar-carlos.png?v=1779814070" alt="Carlos"><div class="reviewer-info"><div class="name">Carlos Hernández</div><div class="city">CDMX</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Entrega rapidísima</div><div class="review-text">Hice el pedido el miércoles y el viernes ya estaba en casa. El kit llegó perfecto, sin golpes, y mi hijo estaba felicísimo cuando lo abrió. ¡Excelente servicio!</div><div class="review-verified">✅ Compra verificada — hace 2 días</div></div>
-    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_10_avatar-amanda.png?v=1779814074" alt="Amanda"><div class="reviewer-info"><div class="name">Amanda Castillo</div><div class="city">Guadalajara</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Precio inmejorable</div><div class="review-text">Comparé varias tiendas y aquí encontré el mejor precio. Además sin gastos de envío. Ya se lo recomendé a dos amigas que también hicieron su pedido.</div><div class="review-verified">✅ Compra verificada — hace 3 días</div></div>
-    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_11_avatar-roberto.png?v=1779814072" alt="Roberto"><div class="reviewer-info"><div class="name">Roberto Vega</div><div class="city">Monterrey</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Todo original Panini</div><div class="review-text">Confieso que estaba desconfiado por ser en línea, pero llegó todo sellado con la marca Panini. Calidad idéntica a la del puesto de revistas y mucho más barato.</div><div class="review-verified">✅ Compra verificada — hace 4 días</div></div>
-    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_12_avatar-fernanda.png?v=1779814069" alt="Fernanda"><div class="reviewer-info"><div class="name">Francisca Ruiz</div><div class="city">Puebla</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Vale cada peso</div><div class="review-text">Compré el kit más grande para mí y mi esposo, para completarlo juntos. En dos tardes ya habíamos pegado más de la mitad. De verdad vale la pena.</div><div class="review-verified">✅ Compra verificada — hace 5 días</div></div>
-    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_13_avatar-marcos.png?v=1779814062" alt="Marco"><div class="reviewer-info"><div class="name">Marco Romero</div><div class="city">Mérida</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Segunda compra, idéntica a la primera</div><div class="review-text">Ya había comprado el Kit Inicial y quedé tan contento que regresé por el Kit Coleccionista. ¡100% recomendado!</div><div class="review-verified">✅ Compra verificada — hace 6 días</div></div>
-    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_14_avatar-rita.png?v=1779814062" alt="Lucía"><div class="reviewer-info"><div class="name">Lucía Martínez</div><div class="city">Querétaro</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Por fin encontré esta oferta</div><div class="review-text">Llevaba semanas buscando el álbum y en todos lados estaba agotado o carísimo. Aquí lo encontré con descuento y llegó en 3 días. ¡Gracias!</div><div class="review-verified">✅ Compra verificada — hace 7 días</div></div>
+    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_9_avatar-carlos.png?v=1779814070" alt="Carlos"><div class="reviewer-info"><div class="name">Carlos Hernández</div><div class="city">CDMX</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Entrega rapidísima</div><div class="review-text">Hice el pedido el miércoles y el viernes ya estaba en casa. El kit llegó perfecto, sin golpes. ¡Excelente servicio!</div><div class="review-verified">✅ Compra verificada — hace 2 días</div></div>
+    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_10_avatar-amanda.png?v=1779814074" alt="Amanda"><div class="reviewer-info"><div class="name">Amanda Castillo</div><div class="city">Guadalajara</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Precio inmejorable</div><div class="review-text">Comparé varias tiendas y aquí encontré el mejor precio. Además sin gastos de envío. ¡100% recomendado!</div><div class="review-verified">✅ Compra verificada — hace 3 días</div></div>
+    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_11_avatar-roberto.png?v=1779814072" alt="Roberto"><div class="reviewer-info"><div class="name">Roberto Vega</div><div class="city">Monterrey</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Todo original</div><div class="review-text">Llegó todo sellado y de calidad. La copa TrophyCup es un regalo increíble para los aficionados del fútbol.</div><div class="review-verified">✅ Compra verificada — hace 4 días</div></div>
+    <div class="review-card"><div class="reviewer"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_12_avatar-fernanda.png?v=1779814069" alt="Fernanda"><div class="reviewer-info"><div class="name">Francisca Ruiz</div><div class="city">Puebla</div></div></div><div class="review-stars">★★★★★</div><div class="review-title">Vale cada peso</div><div class="review-text">Compré el Frost Buddy y el álbum. Los dos llegaron perfectos y a tiempo. Ya los tengo listos para el Mundial.</div><div class="review-verified">✅ Compra verificada — hace 5 días</div></div>
   </div>
 </section>
 
@@ -468,26 +457,26 @@ fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type
     <div class="why-us-card"><div class="why-us-icon"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div><div class="why-us-title">Envío Rápido</div><div class="why-us-desc">2-4 días hábiles a todo México</div></div>
     <div class="why-us-card"><div class="why-us-icon"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><div class="why-us-title">Producto Oficial</div><div class="why-us-desc">Licencia oficial FIFA y Panini</div></div>
     <div class="why-us-card"><div class="why-us-icon"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div><div class="why-us-title">Compra Segura</div><div class="why-us-desc">Pago protegido + SSL</div></div>
-    <div class="why-us-card"><div class="why-us-icon"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="why-us-title">Sin Riesgos</div><div class="why-us-desc">Satisfacción garantizada</div></div>
+    <div class="why-us-card"><div class="why-us-icon"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="why-us-title">Sin Riesgos</div><div class="why-us-desc">Garantía de satisfacción</div></div>
   </div>
 </section>
 
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="stock-dot">Stock limitado — la oferta puede terminar en cualquier momento</div><br>
-  <a href="#kits" class="btn-comprar">
+  <a href="#catalogo" class="btn-comprar">
     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-    Asegurar Mi Kit
+    Ver Todos los Productos
   </a>
-  <div style="margin-top:12px;font-size:12px;color:#888;">✓ Envío gratis &nbsp;·&nbsp; ✓ Producto original</div>
+  <div style="margin-top:12px;font-size:12px;color:#888;">✓ Envío gratis &nbsp;·&nbsp; ✓ Productos originales &nbsp;·&nbsp; ✓ Pago seguro</div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div class="footer-logo">
-      <img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_1_logo-panini-oficial.png?v=1779814061" alt="Panini">
-      <p class="footer-tagline">La colección oficial del Mundial 2026. Compra única por RFC, envío gratis a todo México.</p>
+      <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/WhatsApp_Image_2026-05-03_at_2.05.05_PM.jpg?v=1780543452" alt="Logo">
+      <p class="footer-tagline">La colección oficial del Mundial 2026. Envío gratis a todo México.</p>
     </div>
     <div>
       <div class="footer-links">
@@ -504,7 +493,7 @@ fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type
       <div class="ssl-note">🔒 Sitio 100% seguro · SSL activo</div>
     </div>
   </div>
-  <div class="footer-bottom">© 2026 Panini México — Todos los derechos reservados.</div>
+  <div class="footer-bottom">© 2026 Tienda Mundial 2026 — Todos los derechos reservados.</div>
 </footer>
 
 <script>
@@ -528,8 +517,8 @@ fbq('track','ViewContent',{content_name:'Album Panini Mundial 2026',content_type
   }
   setInterval(fluctuate, 4000);
 
-  document.querySelectorAll('a[href="#kits"]').forEach(a => {
-    a.addEventListener('click', e => { e.preventDefault(); document.getElementById('kits').scrollIntoView({behavior:'smooth'}); });
+  document.querySelectorAll('a[href="#catalogo"]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); document.getElementById('catalogo').scrollIntoView({behavior:'smooth'}); });
   });
 </script>
 </body>
