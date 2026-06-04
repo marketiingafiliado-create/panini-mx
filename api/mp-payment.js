@@ -1,14 +1,16 @@
 const { MercadoPagoConfig, Payment } = require('mercadopago');
 
 const KITS = {
-  'kit-basico':        { amount: 329,  name: 'Kit Básico',       desc: '1 Álbum + 10 sobres (~70 cromos)' },
-  'kit-inicial':       { amount: 749,  name: 'Kit Inicial',       desc: '1 Álbum + 1 Caja (30 sobres)' },
-  'kit-campeon':       { amount: 1199, name: 'Kit Campeón',       desc: '1 Álbum + 2 Cajas (60 sobres)' },
-  'kit-coleccionista': { amount: 1899, name: 'Kit Coleccionista', desc: '1 Álbum + 3 Cajas (90 sobres)' },
-  'golden-edition':    { amount: 4199, name: 'Golden Edition',    desc: '1 Álbum Pasta Dorada + 6 Cajas' },
-  'kit-estadio':        { amount: 5699, name: 'Kit Estadio',       desc: '1 Álbum Edición Especial + 250 sobres' },
-  'trophycup-1':       { amount: 599,  name: 'TrophyCup™ — 1 Copa',    desc: '1 Copa TrophyCup™ Edición Mundial 2026 (470ml)' },
-  'trophycup-duo':     { amount: 899,  name: 'Duo Pack — 2 Copas',     desc: '2 Copas TrophyCup™ + destapador de regalo' },
+  'kit-basico':        { amount: 329,  name: 'Kit Básico',            desc: '1 Álbum + 10 sobres (~70 cromos)' },
+  'kit-inicial':       { amount: 749,  name: 'Kit Inicial',            desc: '1 Álbum + 1 Caja (30 sobres)' },
+  'kit-campeon':       { amount: 1199, name: 'Kit Campeón',            desc: '1 Álbum + 2 Cajas (60 sobres)' },
+  'kit-coleccionista': { amount: 1499, name: 'Kit Coleccionista',      desc: '1 Álbum + 3 Cajas (90 sobres)' },
+  'golden-edition':    { amount: 2199, name: 'Golden Edition',         desc: '1 Álbum Pasta Dorada + 6 Cajas' },
+  'kit-estadio':       { amount: 2699, name: 'Kit Estadio',            desc: '1 Álbum Edición Especial + 250 sobres' },
+  'trophycup-1':       { amount: 599,  name: 'TrophyCup™ — 1 Copa',   desc: '1 Copa TrophyCup™ Edición Mundial 2026 (470ml)' },
+  'trophycup-duo':     { amount: 899,  name: 'Duo Pack — 2 Copas',    desc: '2 Copas TrophyCup™ + destapador de regalo' },
+  'frostbuddy-1':      { amount: 899,  name: 'Frost Buddy™ — 1 Pieza',desc: 'Enfriador de botella edición México · Acero inoxidable doble pared' },
+  'frostbuddy-2':      { amount: 1399, name: 'Frost Buddy™ — 2 Piezas',desc: '2 Enfriadores edición México · Pack pareja' },
 };
 
 module.exports = async (req, res) => {
@@ -36,7 +38,7 @@ module.exports = async (req, res) => {
       body: {
         transaction_amount: kit.amount,
         token,
-        description: `Panini Mundial 2026 — ${kit.name}`,
+        description: `Mundial 2026 — ${kit.name}`,
         installments: parseInt(installments) || 1,
         payment_method_id,
         issuer_id: issuer_id || undefined,
@@ -48,56 +50,27 @@ module.exports = async (req, res) => {
             area_code: telefono.length >= 10 ? telefono.slice(0, 2) : '55',
             number:    telefono.length >= 10 ? telefono.slice(2)    : telefono,
           },
-          address: {
-            street_name: calle,
-            zip_code:    cp,
-          },
+          address: { street_name: calle, zip_code: cp },
         },
         additional_info: {
-          items: [{
-            id:          kitId,
-            title:       kit.name,
-            description: kit.desc,
-            quantity:    1,
-            unit_price:  kit.amount,
-          }],
+          items: [{ id: kitId, title: kit.name, description: kit.desc, quantity: 1, unit_price: kit.amount }],
           payer: {
             first_name: nombre.split(' ')[0],
             last_name:  nombre.split(' ').slice(1).join(' ') || 'N/A',
-            address: {
-              zip_code:    cp,
-              street_name: calle,
-            },
+            address:    { zip_code: cp, street_name: calle },
           },
         },
         metadata: { kit: kit.name, colonia, ciudad, estado },
       },
     });
 
-    // Log completo para debug
-    console.log('MP Result:', JSON.stringify({
-      id:            result.id,
-      status:        result.status,
-      status_detail: result.status_detail,
-    }));
+    console.log('MP Result:', JSON.stringify({ id: result.id, status: result.status, status_detail: result.status_detail }));
 
-    // Cualquier pago creado (approved, in_process, pending) = éxito para el usuario
-    // Solo rechazamos si status es explícitamente 'rejected'
     if (result.status === 'rejected') {
-      return res.status(400).json({
-        error: traducirError(result.status_detail),
-      });
+      return res.status(400).json({ error: traducirError(result.status_detail) });
     }
 
-    // approved, in_process, pending → redirigir a success
-    return res.json({
-      success:       true,
-      status:        result.status,
-      status_detail: result.status_detail,
-      payment_id:    result.id,
-      kit:           kit.name,
-      amount:        kit.amount,
-    });
+    return res.json({ success: true, status: result.status, payment_id: result.id, kit: kit.name, amount: kit.amount });
 
   } catch (err) {
     const cause = err?.cause?.[0];
@@ -109,19 +82,15 @@ module.exports = async (req, res) => {
 
 function traducirError(detail) {
   const errores = {
-    'cc_rejected_bad_filled_card_number': 'Número de tarjeta incorrecto.',
-    'cc_rejected_bad_filled_date':        'Fecha de vencimiento incorrecta.',
-    'cc_rejected_bad_filled_other':       'Datos de la tarjeta incorrectos.',
+    'cc_rejected_bad_filled_card_number':  'Número de tarjeta incorrecto.',
+    'cc_rejected_bad_filled_date':         'Fecha de vencimiento incorrecta.',
     'cc_rejected_bad_filled_security_code':'Código de seguridad incorrecto.',
-    'cc_rejected_blacklist':              'Tarjeta bloqueada. Usa otra tarjeta.',
-    'cc_rejected_call_for_authorize':     'Tarjeta requiere autorización. Llama a tu banco.',
-    'cc_rejected_card_disabled':          'Tarjeta desactivada. Contacta a tu banco.',
-    'cc_rejected_duplicated_payment':     'Pago duplicado. Espera unos minutos.',
-    'cc_rejected_high_risk':              'Pago rechazado por seguridad. Usa otra tarjeta.',
-    'cc_rejected_insufficient_amount':    'Fondos insuficientes.',
-    'cc_rejected_invalid_installments':   'Número de cuotas no permitido.',
-    'cc_rejected_max_attempts':           'Demasiados intentos. Usa otra tarjeta.',
-    'cc_rejected_other_reason':           'Pago rechazado. Intenta con otra tarjeta.',
+    'cc_rejected_blacklist':               'Tarjeta bloqueada. Usa otra tarjeta.',
+    'cc_rejected_call_for_authorize':      'Tarjeta requiere autorización. Llama a tu banco.',
+    'cc_rejected_card_disabled':           'Tarjeta desactivada. Contacta a tu banco.',
+    'cc_rejected_insufficient_amount':     'Fondos insuficientes.',
+    'cc_rejected_high_risk':               'Pago rechazado por seguridad. Usa otra tarjeta.',
+    'cc_rejected_other_reason':            'Pago rechazado. Intenta con otra tarjeta.',
   };
   return errores[detail] || `Pago rechazado (${detail}). Intenta con otra tarjeta.`;
 }
