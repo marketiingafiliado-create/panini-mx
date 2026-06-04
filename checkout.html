@@ -262,21 +262,23 @@ select.form-input{padding:0 13px;cursor:pointer}
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
 const KITS = {
-  'kit-basico':        {nombre:'Kit Básico',       desc:'1 Álbum + 10 sobres (~70 cromos)',               precio:329,  original:449,  img:'imgi_4_kit-basico.png?v=1779814078'},
-  'kit-inicial':       {nombre:'Kit Inicial',       desc:'1 Álbum + 1 Caja (30 sobres / ~210 cromos)',    precio:749,  original:999,  img:'imgi_5_kit-iniciante.png?v=1779814078'},
-  'kit-campeon':       {nombre:'Kit Campeón',       desc:'1 Álbum + 2 Cajas (60 sobres / ~420 cromos)',   precio:1199, original:1799, img:'imgi_6_kit-campeao.png?v=1779814078'},
-  'kit-coleccionista': {nombre:'Kit Coleccionista', desc:'1 Álbum + 3 Cajas (90 sobres / ~630 cromos)',   precio:1899, original:2499, img:'imgi_3_kit-colecionador.png?v=1779814078'},
-  'golden-edition':    {nombre:'Golden Edition',    desc:'1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)',precio:4199, original:4999, img:'imgi_7_kit-capa-dourada.png?v=1779814074'},
-  'kit-estadio':       {nombre:'Kit Estadio',       desc:'1 Álbum Edición Especial + 250 sobres',         precio:5699, original:6999, img:'imgi_8_kit-estadio.png?v=1779814078'},
-  'trophycup-1':       {nombre:'TrophyCup™ — 1 Copa',  desc:'1 Copa TrophyCup™ Edición Mundial 2026 (470ml)', precio:599,  original:999,  img:'imgi_21_ChatGPT_Image_30_may_2026_22_10_33.png?v=1780362727', cdn:'https://cdn.shopify.com/s/files/1/0800/6680/6010/files/'},
-  'trophycup-duo':     {nombre:'Duo Pack — 2 Copas',   desc:'2 Copas TrophyCup™ + destapador de regalo',     precio:899,  original:1599, img:'imgi_40_ChatGPT_Image_30_may_2026_21_51_56.png?v=1780362729', cdn:'https://cdn.shopify.com/s/files/1/0800/6680/6010/files/'},
+  'kit-basico':        {nombre:'Kit Básico',           desc:'1 Álbum + 10 sobres (~70 cromos)',               precio:329,  original:449,  img:'imgi_4_kit-basico.png?v=1779814078'},
+  'kit-inicial':       {nombre:'Kit Inicial',           desc:'1 Álbum + 1 Caja (30 sobres / ~210 cromos)',    precio:749,  original:999,  img:'imgi_5_kit-iniciante.png?v=1779814078'},
+  'kit-campeon':       {nombre:'Kit Campeón',           desc:'1 Álbum + 2 Cajas (60 sobres / ~420 cromos)',   precio:1199, original:1799, img:'imgi_6_kit-campeao.png?v=1779814078'},
+  'kit-coleccionista': {nombre:'Kit Coleccionista',     desc:'1 Álbum + 3 Cajas (90 sobres / ~630 cromos)',   precio:1499, original:2499, img:'imgi_3_kit-colecionador.png?v=1779814078'},
+  'golden-edition':    {nombre:'Golden Edition',        desc:'1 Álbum Pasta Dorada + 6 Cajas (~1,260 cromos)',precio:2199, original:4999, img:'imgi_7_kit-capa-dourada.png?v=1779814074'},
+  'kit-estadio':       {nombre:'Kit Estadio',           desc:'1 Álbum Edición Especial + 250 sobres',         precio:2699, original:6999, img:'imgi_8_kit-estadio.png?v=1779814078'},
+  'trophycup-1':       {nombre:'TrophyCup™ — 1 Copa',  desc:'1 Copa TrophyCup™ Edición Mundial 2026 (470ml)', precio:599,  original:999,  img:'imgi_21_ChatGPT_Image_30_may_2026_22_10_33.png?v=1780362727', cdnBase:'https://cdn.shopify.com/s/files/1/0800/6680/6010/files/'},
+  'trophycup-duo':     {nombre:'Duo Pack — 2 Copas',   desc:'2 Copas TrophyCup™ + destapador de regalo',     precio:899,  original:1599, img:'imgi_40_ChatGPT_Image_30_may_2026_21_51_56.png?v=1780362729', cdnBase:'https://cdn.shopify.com/s/files/1/0800/6680/6010/files/'},
+  'frostbuddy-1':      {nombre:'Frost Buddy™ — 1 Pieza',desc:'Enfriador edición México · Acero inoxidable',  precio:899,  original:1824, img:'imgi_144.jpg?v=1780544621', cdnBase:'https://cdn.shopify.com/s/files/1/0800/6680/6010/files/'},
+  'frostbuddy-2':      {nombre:'Frost Buddy™ — 2 Piezas',desc:'2 Enfriadores edición México · Pack pareja',  precio:1399, original:3648, img:'imgi_144.jpg?v=1780544621', cdnBase:'https://cdn.shopify.com/s/files/1/0800/6680/6010/files/'},
 };
 const CDN   = 'https://cdn.shopify.com/s/files/1/0713/5654/7132/files/';
 const params= new URLSearchParams(window.location.search);
 const kitId = params.get('kit') || 'kit-campeon';
 const kit   = KITS[kitId] || KITS['kit-campeon'];
 
-document.getElementById('kit-img').src              = CDN + kit.img;
+document.getElementById('kit-img').src = (kit.cdnBase || CDN) + kit.img;
 document.getElementById('kit-nombre').textContent   = kit.nombre;
 document.getElementById('kit-desc').textContent     = kit.desc;
 document.getElementById('precio-original').textContent = `$${kit.original.toLocaleString()} MXN`;
