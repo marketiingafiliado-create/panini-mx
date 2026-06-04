@@ -20,7 +20,7 @@
 
   /* NAVBAR */
   .navbar { background: var(--vino-dark); display: flex; align-items: center; justify-content: space-between; padding: 12px 32px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,.3); }
-  .navbar-logo img { height: 52px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
+  .navbar-logo svg { height: 48px; }
   .countdown-wrap { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,.85); font-weight: 600; }
   .timer-label { opacity: .8; font-size: 11px; letter-spacing: .5px; }
   .countdown-digits { display: flex; gap: 3px; align-items: center; }
@@ -177,7 +177,7 @@
   /* FOOTER */
   footer { background: var(--vino-dark); color: rgba(255,255,255,.8); padding: 48px 24px 24px; }
   .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto 32px; }
-  .footer-logo img { height: 52px; object-fit: contain; filter: brightness(0) invert(1); margin-bottom: 12px; }
+  .footer-logo svg { height: 44px; margin-bottom: 12px; }
   .footer-tagline { font-size: 13px; opacity: .7; line-height: 1.6; max-width: 280px; }
   .footer-links h4 { color: var(--amarillo); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
   .footer-links a { display: block; font-size: 13px; color: rgba(255,255,255,.7); text-decoration: none; margin-bottom: 8px; }
@@ -210,9 +210,16 @@ fbq('track','ViewContent',{content_name:'Tienda Mundial 2026',content_type:'prod
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="navbar-logo">
-    <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/WhatsApp_Image_2026-05-03_at_2.05.05_PM.jpg?v=1780543452" alt="Logo">
-  </div>
+  <div class="navbar-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" height="48">
+  <rect x="10" y="8" width="64" height="64" rx="12" fill="rgba(255,255,255,0.12)"/>
+  <path d="M42 14L58 22.5V34C58 43 51.5 56 42 56C32.5 56 26 43 26 34V22.5L42 14Z" fill="none" stroke="#f5c842" stroke-width="2"/>
+  <path d="M42 20L54 27V34C54 40.5 49.5 50 42 50C34.5 50 30 40.5 30 34V27L42 20Z" fill="#f5c842" fill-opacity="0.15"/>
+  <path d="M35 34.5L39.5 39L50 28" stroke="#f5c842" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="86" y="34" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#ffffff" letter-spacing="1">Importaciones</text>
+  <line x1="86" y1="40" x2="300" y2="40" stroke="#f5c842" stroke-width="1"/>
+  <text x="86" y="60" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#ffffff" letter-spacing="2">Shaina</text>
+  <text x="86" y="73" font-family="Arial, sans-serif" font-size="9" fill="#f5c842" letter-spacing="3">MÉXICO · CALIDAD GARANTIZADA</text>
+</svg></div>
   <div class="countdown-wrap">
     <span class="timer-label">⏱ LA OFERTA TERMINA EN</span>
     <div class="countdown-digits">
@@ -271,10 +278,7 @@ fbq('track','ViewContent',{content_name:'Tienda Mundial 2026',content_type:'prod
 <section class="catalogo-section" id="catalogo">
   <div class="section-title">Nuestra Colección</div>
   <p class="section-desc">Todos los productos oficiales del Mundial 2026 en un solo lugar. Envío gratis a todo México.</p>
-
-  <!-- ÁLBUMES PANINI -->
-  <div class="cat-label"><span>📚 Álbumes Panini FIFA World Cup 2026</span></div>
-  <div class="productos-grid">
+<div class="productos-grid">
 
     <div class="prod-card">
       <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0713/5654/7132/files/imgi_4_kit-basico.png?v=1779814078" alt="Kit Básico"></div>
@@ -346,11 +350,7 @@ fbq('track','ViewContent',{content_name:'Tienda Mundial 2026',content_type:'prod
       </div>
     </div>
 
-  </div>
-
-  <!-- TROPHYCUP -->
-  <div class="cat-label"><span>🏆 TrophyCup™ — Copas Edición Mundial 2026</span></div>
-  <div class="productos-grid">
+  
 
     <div class="prod-card trophy-style">
       <div class="prod-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/imgi_21_ChatGPT_Image_30_may_2026_22_10_33.png?v=1780362727" alt="TrophyCup 1 Copa"></div>
@@ -375,11 +375,7 @@ fbq('track','ViewContent',{content_name:'Tienda Mundial 2026',content_type:'prod
       </div>
     </div>
 
-  </div>
-
-  <!-- FROST BUDDY -->
-  <div class="cat-label"><span>🇲🇽 Frost Buddy™ — Enfriador Edición México</span></div>
-  <div class="productos-grid">
+  
 
     <div class="prod-card tricolor">
       <span class="prod-badge badge-nuevo">Nuevo</span>
@@ -474,8 +470,16 @@ fbq('track','ViewContent',{content_name:'Tienda Mundial 2026',content_type:'prod
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
-    <div class="footer-logo">
-      <img src="https://cdn.shopify.com/s/files/1/0800/6680/6010/files/WhatsApp_Image_2026-05-03_at_2.05.05_PM.jpg?v=1780543452" alt="Logo">
+    <div class="footer-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" height="48">
+  <rect x="10" y="8" width="64" height="64" rx="12" fill="rgba(255,255,255,0.12)"/>
+  <path d="M42 14L58 22.5V34C58 43 51.5 56 42 56C32.5 56 26 43 26 34V22.5L42 14Z" fill="none" stroke="#f5c842" stroke-width="2"/>
+  <path d="M42 20L54 27V34C54 40.5 49.5 50 42 50C34.5 50 30 40.5 30 34V27L42 20Z" fill="#f5c842" fill-opacity="0.15"/>
+  <path d="M35 34.5L39.5 39L50 28" stroke="#f5c842" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="86" y="34" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#ffffff" letter-spacing="1">Importaciones</text>
+  <line x1="86" y1="40" x2="300" y2="40" stroke="#f5c842" stroke-width="1"/>
+  <text x="86" y="60" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#ffffff" letter-spacing="2">Shaina</text>
+  <text x="86" y="73" font-family="Arial, sans-serif" font-size="9" fill="#f5c842" letter-spacing="3">MÉXICO · CALIDAD GARANTIZADA</text>
+</svg>
       <p class="footer-tagline">La colección oficial del Mundial 2026. Envío gratis a todo México.</p>
     </div>
     <div>
